@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Orchid</string>
+    <string name="title_activity_main2">English Learning</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_check">Check</string>
+
+    <string name="menu_test_level1">Level 1</string>
+    <string name="menu_test_level2">Level 2</string>
+    <string name="menu_test_level3">Level 3</string>
+    <string name="menu_test_level4">Level 4</string>
+    <string name="menu_test_level5">Level 5</string>
+    <string name="menu_test_level6">Level 6</string>
+    <string name="menu_test_level7">Level 7</string>
+
+    <string name="menu_home">Trang chủ</string>
+    <string name="menu_thongbao">Thông báo</string>
+    <string name="menu_tienich">Tiện ích</string>
+    <string name="menu_list">Danh mục</string>
+    <string name="menu_nguoidung">Người dùng</string>
+    <string name="menu_user">User</string>
+    <string name="menu_favourite">Favourite</string>
+    <string name="menu_translate">Translate</string>
+    <string name="menu_test">Test</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_about">About App</string>
+
+</resources>

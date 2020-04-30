@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Điện thoại - Máy tính"
+        android:id="@+id/menu_dienthoai"/>
+
+    <item android:title="Quần áo - Thời trang"
+        android:id="@+id/menu_quanao"/>
+
+    <item android:title="Nhà cửa - Đồ gia dụng"
+        android:id="@+id/menu_nhacua"/>
+
+    <item android:title="Sức khỏe - Làm đẹp"
+        android:id="@+id/menu_lamdep"/>
+
+    <item android:title="Sách - Văn phòng phẩm"
+        android:id="@+id/menu_sach"/>
+</menu>

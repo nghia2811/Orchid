@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_danhmuc"
+    android:clickable="true"
+    android:layout_width="100dp"
+    android:layout_height="110dp"
+    android:layout_margin="10dp"
+    android:paddingTop="7dp"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            app:cardCornerRadius="40dp">
+
+                <ImageView
+                    android:id="@+id/danhmuc_img_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:background="@color/colorBlack"/>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/danhmuc_title_id"
+            android:textColor="#2d2d2d"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category Title"/>
+
+</LinearLayout>

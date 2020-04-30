@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorGray">
+
+    <LinearLayout
+        android:id="@+id/list_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:weightSum="10">
+
+        <Button
+            android:id="@+id/list_search"
+            android:layout_width="0dp"
+            android:layout_height="37dp"
+            android:layout_weight="9"
+            android:background="@drawable/border"
+            android:text="Bạn muốn tìm gì hôm nay ?"
+            android:textStyle="normal"
+            android:textAllCaps="false"
+            android:textColor="#939090"
+            android:paddingStart="10dp"
+            android:drawableStart="@drawable/ic_search_black_24dp"
+            android:gravity="center|left"/>
+
+        <ImageButton
+            android:id="@+id/btn_list_giohang"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:layout_marginStart="7dp"
+            android:background="@drawable/ic_local_grocery_store_black_50dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="55dp"
+        android:orientation="horizontal"
+        android:weightSum="11">
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:id="@+id/recyclerView_list_danhmuc"
+        android:orientation="horizontal" />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="655dp"
+            android:layout_weight="8"
+            android:id="@+id/list_host_fragment" />
+    </LinearLayout>
+</LinearLayout>
+
+

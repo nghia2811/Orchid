@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background5">
+
+    <TextView
+        android:id="@+id/orchid1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/milkshake"
+        android:text="Create account"
+        android:textAlignment="center"
+        android:textColor="#EC6940"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/orchid1"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="50dp">
+
+        <ImageView
+            android:id="@+id/cardview_avatar"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/user" />
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/orchid1"
+        android:background="#30000000"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/register_user"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="90dp"
+                android:paddingStart="10dp"
+                android:drawablePadding="10dp"
+                android:background="@drawable/border3"
+                android:drawableLeft="@drawable/ic_person_black_login_24dp"
+                android:hint="Số điện thoại/Email"/>
+
+            <EditText
+                android:id="@+id/register_pass"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:paddingStart="10dp"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:background="@drawable/border3"
+                android:hint="Password"
+                android:inputType="textPassword"/>
+
+        <EditText
+            android:id="@+id/register_ten"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:paddingStart="10dp"
+            android:drawablePadding="5dp"
+            android:background="@drawable/border3"
+            android:drawableLeft="@drawable/ic_credit_card_black_24dp"
+            android:hint="Họ tên người dùng"/>
+
+        <EditText
+            android:id="@+id/register_diachi"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:paddingStart="10dp"
+            android:drawablePadding="5dp"
+            android:background="@drawable/border3"
+            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:hint="Địa chỉ"/>
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/border4"
+                android:text="register"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"/>
+    </LinearLayout>
+
+</RelativeLayout>

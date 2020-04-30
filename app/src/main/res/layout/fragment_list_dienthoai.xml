@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorWhite"
+        android:padding="10dp"
+        android:text="Điện thoại - Máy tính"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:layout_marginTop="5dp"
+        android:textSize="13dp"
+        android:textAllCaps="false"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/dienthoai"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        android:text="Điện thoại Smartphone"
+        android:textSize="13dp"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        android:text="Máy tính bảng"
+        android:textSize="13dp"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        android:text="Laptop"
+        android:textSize="13dp"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        android:text="PC"
+        android:textSize="13dp"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/border"
+        android:padding="10dp"
+        android:text="Phụ kiện"
+        android:textSize="13dp"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"/>
+</LinearLayout>
+
+

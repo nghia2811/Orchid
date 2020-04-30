@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        android:paddingStart="10dp"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/btn_search_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/ic_arrow_back_black_24dp"/>
+
+        <SearchView
+            android:id="@+id/edt_search"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="7"
+            android:background="@drawable/border"
+            android:textSize="10sp"
+            android:queryHint="Bạn muốn tìm gì?"/>
+
+        <ImageButton
+            android:id="@+id/btn_search_giohang"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_local_grocery_store_black_50dp"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerView_search"/>
+
+</LinearLayout>
