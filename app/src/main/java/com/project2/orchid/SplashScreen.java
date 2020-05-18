@@ -19,6 +19,7 @@ public class SplashScreen extends AppCompatActivity {
                 try {
                     sleep(1000);
                 } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 } finally {
                     FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -26,11 +27,10 @@ public class SplashScreen extends AppCompatActivity {
                         startActivity(new Intent(SplashScreen.this, LoginActivity.class));
                     else
                         startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                    finish();
                 }
             }
         };
         timer.start();
-
-
     }
 }

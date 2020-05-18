@@ -94,7 +94,6 @@ public class AddProductActivity extends AppCompatActivity {
                     loadingDialog = new LoadingDialog(AddProductActivity.this);
                     loadingDialog.startLoadingDialog();
                     addProduct();
-
                 }
             }
         });
@@ -276,8 +275,6 @@ public class AddProductActivity extends AppCompatActivity {
                     intent.putExtra("DanhMuc", danhmuc);
                     // start the activity
                     startActivity(intent);
-                    bottomDialog.dismiss();
-                    reset();
                 }
             });
 

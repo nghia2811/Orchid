@@ -305,7 +305,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="75dp"
                 android:background="@color/colorWhite"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -333,6 +332,40 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/button_selector2"
                     android:text="XEM THÊM"
+                    android:textColor="@color/colorBlue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="75dp"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nhận xét của khách hàng"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
+
+                <Button
+                    android:id="@+id/vietnhanxet"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/button_selector2"
+                    android:text="Viết nhận xét"
                     android:textColor="@color/colorBlue" />
             </LinearLayout>
         </LinearLayout>

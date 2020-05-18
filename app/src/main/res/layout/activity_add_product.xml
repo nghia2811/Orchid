@@ -238,9 +238,11 @@
                 <EditText
                     android:id="@+id/edt_mota"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="130dp"
                     android:layout_marginTop="5dp"
-                    android:hint="hiển thị thông tin sản phẩm"
+                    android:background="@drawable/border10"
+                    android:padding="10dp"
+                    android:hint="Hiển thị thông tin sản phẩm"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp" />
 

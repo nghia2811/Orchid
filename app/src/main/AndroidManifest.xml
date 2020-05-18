@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".OrchidApplication">
         <activity android:name=".DaBanActivity"></activity>
         <activity android:name=".CategoryActivity" />
         <activity android:name=".NoiBatActivity" />

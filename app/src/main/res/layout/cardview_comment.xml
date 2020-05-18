@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ten_khach_hang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tên khách hàng:"
+            android:textSize="16sp"
+            android:textColor="@color/colorBlue"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="comment"
+            android:textSize="15sp"
+            android:textColor="@color/colorBlack"
+            android:layout_marginTop="5dp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.project2.orchid.object.Category;
 import com.project2.orchid.object.Category2;
@@ -37,6 +39,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.view.View.GONE;
+
 public class HomeFragment extends Fragment {
     ArrayList<Product> lstDaxem, lstNoibat, lstDienthoai, lstQuanao, lstNhacua, lstSach, lstLamdep;
     List<Category> lstBtnNoibat, lstBtnTimkiem;
@@ -44,8 +48,10 @@ public class HomeFragment extends Fragment {
     Button search, dienThoai, quanAo, nhaCua, sach, lamDep;
     ImageButton danhmuc;
     ViewPager viewPager;
+    ProgressBar loadingView;
     SwipeRefreshLayout swipeRefreshLayout;
-    DatabaseReference reference, refDaxem, refDienthoai, refQuanao, refNhacua, refLamdep, refSach;
+    DatabaseReference reference, refDaxem, refQuanao, refNhacua, refLamdep, refSach;
+    Query refDienthoai;
     TextView xemthemYeuThich, xemthemNoiBat, xemthemDanhmuc;
     FirebaseAuth mAuth;
 
@@ -55,8 +61,7 @@ public class HomeFragment extends Fragment {
     int currentPage = 0;
     Timer timer;
     final long DELAY_MS = 1500;//delay in milliseconds before task is to be executed
-    final long PERIOD_MS = 4000; // time in milliseconds between successive task executions.
-
+    final long PERIOD_MS = 3000; // time in milliseconds between successive task executions.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +80,7 @@ public class HomeFragment extends Fragment {
         lamDep = root.findViewById(R.id.btn_lamdep);
         danhmuc = root.findViewById(R.id.home_btn_danhmuc);
         viewPager = root.findViewById(R.id.viewPager);
+        loadingView = root.findViewById(R.id.loading_view);
 
         setViewPager();
 
@@ -254,6 +260,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadData() {
+
         LinearLayoutManager layoutManagerNoibat = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewNoibat = (RecyclerView) root.findViewById(R.id.recyclerView_home_noibat);
         recyclerViewNoibat.setLayoutManager(layoutManagerNoibat);
@@ -281,14 +288,13 @@ public class HomeFragment extends Fragment {
         final RecyclerView recyclerViewDienthoai = (RecyclerView) root.findViewById(R.id.recyclerView_home_dienthoai);
         recyclerViewDienthoai.setLayoutManager(layoutManagerDienthoai);
 
-        refDienthoai = FirebaseDatabase.getInstance().getReference().child("Product");
+        refDienthoai = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("danhMuc").equalTo("Điện thoại - Máy tính");
         refDienthoai.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lstDienthoai = new ArrayList<Product>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
-                    if (p.getDanhMuc().equals("Điện thoại - Máy tính"))
                         lstDienthoai.add(p);
                 }
                 RecyclerViewAdapter myAdapterDienthoai = new RecyclerViewAdapter(getContext(), lstDienthoai);
@@ -404,10 +410,12 @@ public class HomeFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+
         refDaxem = FirebaseDatabase.getInstance().getReference().child("Favourite").child(currentUser.getUid());
         refDaxem.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                loadingView.setVisibility(GONE);
                 lstDaxem = new ArrayList<Product>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
