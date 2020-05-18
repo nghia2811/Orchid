@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project2.orchid.object.Category2;
+
 import java.util.List;
 
 

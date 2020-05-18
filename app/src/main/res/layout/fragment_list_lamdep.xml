@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"><LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
     <Button
+        android:id="@+id/btn_list_lamdep"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/colorWhite"
+        android:background="@drawable/button_selector2"
         android:padding="10dp"
-        android:text="Làm đẹp - Sức khỏe"
+        android:text="Sức khỏe - Làm đẹp"
         android:gravity="left|center_vertical"
         android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
         android:layout_marginTop="5dp"
@@ -53,6 +52,7 @@
             android:layout_height="wrap_content"
             android:text="XEM THÊM"
             android:textSize="13dp"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/colorBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -89,6 +89,7 @@
             android:layout_height="wrap_content"
             android:text="XEM THÊM"
             android:textSize="13dp"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/colorBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

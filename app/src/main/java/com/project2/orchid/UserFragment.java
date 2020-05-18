@@ -1,16 +1,11 @@
 package com.project2.orchid;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,20 +21,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
 
 public class UserFragment extends Fragment {
-    ImageButton gioHang;
+    ImageView gioHang;
     Button btnQuanli,btnYeuthich,btnDangxuat,btnMuasau;
     TextView email, ten, ngaydangki;
     ImageView img;
     FirebaseAuth mAuth;
     DatabaseReference ref;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,27 +44,7 @@ public class UserFragment extends Fragment {
         ngaydangki = root.findViewById(R.id.user_date);
         img = root.findViewById(R.id.user_img1);
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        ref = FirebaseDatabase.getInstance().getReference().child("User").child(currentUser.getUid());
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Setting values
-                ten.setText(dataSnapshot.child("ten").getValue().toString());
-                email.setText(dataSnapshot.child("email").getValue().toString());
-                ngaydangki.setText(dataSnapshot.child("diaChi").getValue().toString());
-
-                UserFragment.LoadImage loadImage = new UserFragment.LoadImage(img);
-                loadImage.execute(dataSnapshot.child("anhDaiDien").getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), "load thất bại", Toast.LENGTH_SHORT).show();
-            }
-        });
+        loadData();
 
         gioHang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +73,7 @@ public class UserFragment extends Fragment {
         btnMuasau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), GioHangActivity.class);
+                Intent intent = new Intent(getActivity(), DaBanActivity.class);
                 startActivity(intent);
             }
         });
@@ -119,29 +89,27 @@ public class UserFragment extends Fragment {
         return root;
     }
 
-    private class LoadImage extends AsyncTask<String, Void, Bitmap> {
-        ImageView img;
-        public LoadImage(ImageView ivResult) {
-            this.img = ivResult;
-        }
+    private void loadData() {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            String urlLink = strings[0];
-            Bitmap bitmap = null;
-            try {
-                InputStream inputStream = new java.net.URL(urlLink).openStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
+        ref = FirebaseDatabase.getInstance().getReference().child("User").child(currentUser.getUid());
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Setting values
+                ten.setText(dataSnapshot.child("ten").getValue().toString());
+                email.setText(dataSnapshot.child("email").getValue().toString());
+                ngaydangki.setText(dataSnapshot.child("diaChi").getValue().toString());
+
+                Glide.with(getActivity()).load(dataSnapshot.child("anhDaiDien").getValue().toString())
+                        .placeholder(R.drawable.noimage).into(img);
             }
-            return bitmap;
-        }
 
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            img.setImageBitmap(bitmap);
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), "load thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
 }

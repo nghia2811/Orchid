@@ -1,26 +1,26 @@
 package com.project2.orchid;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.project2.orchid.object.Category2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListFragment extends Fragment {
     List<Category2> lstProduct;
-    ImageButton gioHang;
+    ImageView gioHang;
     Button search;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,6 +45,7 @@ public class ListFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         getFragmentManager().beginTransaction().add(R.id.list_host_fragment, new ListHomeFragment()).commit();
 
         lstProduct = new ArrayList<>();

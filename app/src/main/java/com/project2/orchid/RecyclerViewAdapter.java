@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.FirebaseStorage;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.project2.orchid.object.Product;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tv_category_title.setText(mData.get(position).getTen());
-        Picasso.get().load(mData.get(position).getHinhAnh()).into(holder.img_category_thumbnail);
+        Glide.with(mContext).load(mData.get(position).getHinhAnh()).placeholder(R.drawable.noimage).into(holder.img_category_thumbnail);
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

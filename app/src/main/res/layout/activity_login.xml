@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background5"
@@ -42,7 +40,7 @@
         android:drawablePadding="10dp"
         android:drawableLeft="@drawable/ic_person_black_login_24dp"
         android:background="@drawable/border3"
-        android:hint="Số điện thoại/Email"/>
+        android:hint="Địa chỉ Email" />
 
     <EditText
         android:id="@+id/login_pass"
@@ -64,7 +62,8 @@
         android:layout_gravity="right"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="30dp"
-        android:text="Forgot password ?"/>
+        android:text="Forgot password ?"
+        android:background="?attr/selectableItemBackground" />
 
     <Button
         android:id="@+id/btn_login"
@@ -72,7 +71,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:background="@drawable/border4"
+        android:background="@drawable/button_selector3"
         android:text="login"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"/>
@@ -84,5 +83,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="180dp"
         android:textColor="@color/colorRed"
-        android:text="No account yet? Create one"/>
+        android:text="No account yet? Create one"
+        android:background="?attr/selectableItemBackground" />
 </LinearLayout>

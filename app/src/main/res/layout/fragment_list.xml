@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorGray">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorGray">
 
     <LinearLayout
         android:id="@+id/list_bar"
@@ -22,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="37dp"
             android:layout_weight="9"
-            android:background="@drawable/border"
+            android:background="@drawable/button_selector2"
             android:text="Bạn muốn tìm gì hôm nay ?"
             android:textStyle="normal"
             android:textAllCaps="false"
@@ -31,13 +28,14 @@
             android:drawableStart="@drawable/ic_search_black_24dp"
             android:gravity="center|left"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_list_giohang"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_weight="1"
             android:layout_marginStart="7dp"
-            android:background="@drawable/ic_local_grocery_store_black_50dp"/>
+            android:src="@drawable/ic_local_grocery_store_black_50dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless" />
     </LinearLayout>
 
     <LinearLayout

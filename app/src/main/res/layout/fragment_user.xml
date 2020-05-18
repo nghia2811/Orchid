@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -24,7 +22,7 @@
             android:textStyle="bold"
             android:textColor="@color/colorWhite"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_user_giohang"
             android:layout_width="0dp"
             android:layout_height="35dp"
@@ -32,7 +30,8 @@
             android:layout_gravity="center"
             android:layout_marginStart="7dp"
             android:clickable="true"
-            android:background="@drawable/ic_local_grocery_store_black_50dp"/>
+            android:src="@drawable/ic_local_grocery_store_black_50dp"
+            android:background="?attr/selectableItemBackgroundBorderless" />
     </LinearLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_height="wrap_content"
@@ -60,7 +59,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
-                        android:background="@drawable/khuyenhoc"/>
+                        android:background="@drawable/noimage" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
@@ -98,7 +97,7 @@
                 <Button
                     android:id="@+id/user_connect"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:layout_marginTop="15dp"
                     android:paddingStart="10dp"
@@ -115,11 +114,11 @@
                 <Button
                     android:id="@+id/user_quanli"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="15dp"
                     android:paddingStart="10dp"
                     android:background="@color/colorWhite"
-                    android:text="Quản lí đơn hàng"
+                    android:text="Đăng bán sản phẩm"
                     android:textSize="14sp"
                     android:textAllCaps="false"
                     android:gravity="center_vertical|left"
@@ -131,7 +130,7 @@
                 <Button
                     android:id="@+id/user_thanhtoan"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:paddingStart="15dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
@@ -144,7 +143,7 @@
                 <Button
                     android:id="@+id/user_vanchuyen"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:paddingStart="15dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
@@ -157,7 +156,7 @@
                 <Button
                     android:id="@+id/user_thanhcong"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:paddingStart="15dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
@@ -170,7 +169,7 @@
                 <Button
                     android:id="@+id/user_dahuy"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:paddingStart="15dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
@@ -183,7 +182,7 @@
                 <Button
                     android:id="@+id/user_tiepnhan"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:paddingStart="15dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
@@ -197,7 +196,7 @@
                 <Button
                     android:id="@+id/user_diachi"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
                     android:text="Địa chỉ"
@@ -213,7 +212,7 @@
                 <Button
                     android:id="@+id/user_thongtin"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
                     android:text="Thông tin thanh toán"
@@ -229,7 +228,7 @@
                 <Button
                     android:id="@+id/user_damua"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
                     android:text="Sản phẩm đã mua"
@@ -245,7 +244,7 @@
                 <Button
                     android:id="@+id/user_daxem"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
                     android:textAllCaps="false"
@@ -260,7 +259,7 @@
                 <Button
                     android:id="@+id/user_yeuthich"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
                     android:textAllCaps="false"
@@ -275,10 +274,10 @@
                 <Button
                     android:id="@+id/user_muasau"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
-                    android:text="Sản phẩm mua sau"
+                    android:text="Sản phẩm đã đăng bán"
                     android:textAllCaps="false"
                     android:gravity="center_vertical|left"
                     android:paddingStart="10dp"
@@ -290,7 +289,7 @@
                 <Button
                     android:id="@+id/user_caidat"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
                     android:text="Cài đặt"
@@ -307,7 +306,7 @@
                 <Button
                     android:id="@+id/user_hotro"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:background="@color/colorWhite"
                     android:textSize="14sp"
                     android:text="Hỗ trợ"
@@ -323,8 +322,8 @@
                 <Button
                     android:id="@+id/user_dangxuat"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:background="@drawable/border2"
+                    android:layout_height="45dp"
+                    android:background="@drawable/button_selector"
                     android:text="Đăng xuất"
                     android:textStyle="bold"
                     android:textColor="@color/colorWhite"

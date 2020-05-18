@@ -12,14 +12,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NoiBatActivity"></activity>
+        <activity android:name=".DaBanActivity"></activity>
+        <activity android:name=".CategoryActivity" />
+        <activity android:name=".NoiBatActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".YeuThichActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".GioHangActivity" />
         <activity android:name=".AddProductActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/SplashscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

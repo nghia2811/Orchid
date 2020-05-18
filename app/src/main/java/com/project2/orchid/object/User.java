@@ -1,4 +1,4 @@
-package com.project2.orchid;
+package com.project2.orchid.object;
 
 import java.util.Date;
 

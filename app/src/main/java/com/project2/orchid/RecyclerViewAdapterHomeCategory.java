@@ -1,18 +1,22 @@
 package com.project2.orchid;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.project2.orchid.object.Category;
+import com.project2.orchid.object.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +24,8 @@ import java.util.List;
 
 public class RecyclerViewAdapterHomeCategory extends RecyclerView.Adapter<RecyclerViewAdapterHomeCategory.MyViewHolder> {
 
-    private HomeFragment mContext ;
-    private List<Category> mData ;
+    private HomeFragment mContext;
+    private List<Category> mData;
     List<LinearLayout> cardViewList = new ArrayList<>();
 
 
@@ -32,9 +36,9 @@ public class RecyclerViewAdapterHomeCategory extends RecyclerView.Adapter<Recycl
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view ;
+        View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext.getActivity());
-        view = mInflater.inflate(R.layout.button_home_noibat,parent,false);
+        view = mInflater.inflate(R.layout.button_home_noibat, parent, false);
         return new MyViewHolder(view);
 
     }
@@ -47,31 +51,144 @@ public class RecyclerViewAdapterHomeCategory extends RecyclerView.Adapter<Recycl
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(LinearLayout cardView : cardViewList){
+                for (LinearLayout cardView : cardViewList) {
                     cardView.setBackgroundResource(R.drawable.khung);
                 }
                 holder.cardView.setBackgroundResource(R.drawable.khung2);
-                if (position == 0) {
 
-                }
-                else if (position == 1) {
+                LinearLayoutManager layoutManager = new LinearLayoutManager(mContext.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                final RecyclerView recyclerView = mContext.root.findViewById(R.id.recyclerView_home_noibat);
+                recyclerView.setLayoutManager(layoutManager);
 
-                }
-                else if (position == 2){
+                switch (mData.get(position).getTitle()) {
+                    case "Tất cả":
+                        mContext.reference = FirebaseDatabase.getInstance().getReference().child("NoiBat");
+                        mContext.reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                mContext.lstNoibat = new ArrayList<Product>();
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Product p = dataSnapshot1.getValue(Product.class);
+                                    mContext.lstNoibat.add(p);
+                                }
+                                RecyclerViewAdapter myAdapterNoibat = new RecyclerViewAdapter(mContext.getContext(), mContext.lstNoibat);
+                                recyclerView.setAdapter(myAdapterNoibat);
+                            }
 
-                }
-                else if (position == 3){
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(mContext.getActivity(), "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case "Điện thoại - Máy tính":
+                        mContext.refDienthoai = FirebaseDatabase.getInstance().getReference().child("Product");
+                        mContext.refDienthoai.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                mContext.lstDienthoai = new ArrayList<Product>();
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Product p = dataSnapshot1.getValue(Product.class);
+                                    if (p.getDanhMuc().equals("Điện thoại - Máy tính"))
+                                        mContext.lstDienthoai.add(p);
+                                }
+                                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(mContext.getContext(), mContext.lstDienthoai);
+                                recyclerView.setAdapter(myAdapter);
+                            }
 
-                }
-                else if (position == 4){
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(mContext.getActivity(), "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case "Thời trang":
+                        mContext.refQuanao = FirebaseDatabase.getInstance().getReference().child("Product");
+                        mContext.refQuanao.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                mContext.lstQuanao = new ArrayList<Product>();
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Product p = dataSnapshot1.getValue(Product.class);
+                                    if (p.getDanhMuc().equals("Quần áo - Thời trang"))
+                                        mContext.lstQuanao.add(p);
+                                }
+                                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(mContext.getContext(), mContext.lstQuanao);
+                                recyclerView.setAdapter(myAdapter);
+                            }
 
-                }
-                else if (position == 5){
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(mContext.getActivity(), "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case "Sách":
+                        mContext.refSach = FirebaseDatabase.getInstance().getReference().child("Product");
+                        mContext.refSach.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                mContext.lstSach = new ArrayList<Product>();
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Product p = dataSnapshot1.getValue(Product.class);
+                                    if (p.getDanhMuc().equals("Sách - Văn phòng phẩm"))
+                                        mContext.lstSach.add(p);
+                                }
+                                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(mContext.getContext(), mContext.lstSach);
+                                recyclerView.setAdapter(myAdapter);
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(mContext.getActivity(), "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case "Làm đẹp - Sức khỏe":
+                        mContext.refLamdep = FirebaseDatabase.getInstance().getReference().child("Product");
+                        mContext.refLamdep.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                mContext.lstLamdep = new ArrayList<Product>();
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Product p = dataSnapshot1.getValue(Product.class);
+                                    if (p.getDanhMuc().equals("Sức khỏe - Làm đẹp"))
+                                        mContext.lstLamdep.add(p);
+                                }
+                                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(mContext.getContext(), mContext.lstLamdep);
+                                recyclerView.setAdapter(myAdapter);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(mContext.getActivity(), "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case "Đồ gia dụng":
+                        mContext.refNhacua = FirebaseDatabase.getInstance().getReference().child("Product");
+                        mContext.refNhacua.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                mContext.lstNhacua = new ArrayList<Product>();
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    Product p = dataSnapshot1.getValue(Product.class);
+                                    if (p.getDanhMuc().equals("Nhà cửa - Đồ gia dụng"))
+                                        mContext.lstNhacua.add(p);
+                                }
+                                RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(mContext.getContext(), mContext.lstNhacua);
+                                recyclerView.setAdapter(myAdapter);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(mContext.getActivity(), "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
                 }
             }
         });
-
     }
 
     @Override
@@ -82,22 +199,14 @@ public class RecyclerViewAdapterHomeCategory extends RecyclerView.Adapter<Recycl
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_category_title;
-        LinearLayout cardView ;
-        RecyclerView Rall, Rdienthoai, Rquanao, Rlamdep, Rsach, Rnhacua;
+        LinearLayout cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            tv_category_title = (TextView) itemView.findViewById(R.id.home_btn_title) ;
+            tv_category_title = (TextView) itemView.findViewById(R.id.home_btn_title);
             cardView = (LinearLayout) itemView.findViewById(R.id.home_btn_noibat);
-            Rall = (RecyclerView) itemView.findViewById(R.id.recyclerView_home_noibat);
-            Rdienthoai = (RecyclerView) itemView.findViewById(R.id.recyclerView_home_dienthoai);
-            Rlamdep = (RecyclerView) itemView.findViewById(R.id.recyclerView_home_lamdep);
-            Rquanao= (RecyclerView) itemView.findViewById(R.id.recyclerView_home_quanao);
-            Rsach = (RecyclerView) itemView.findViewById(R.id.recyclerView_home_sach);
-            Rnhacua = (RecyclerView) itemView.findViewById(R.id.recyclerView_home_nhacua);
         }
     }
-
 
 }

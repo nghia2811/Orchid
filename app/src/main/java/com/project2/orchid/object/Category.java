@@ -1,4 +1,4 @@
-package com.project2.orchid;
+package com.project2.orchid.object;
 
 public class Category {
     private String Title;

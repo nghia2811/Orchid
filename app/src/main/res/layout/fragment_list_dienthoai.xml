@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Button
+        android:id="@+id/btn_list_dienthoai"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/colorWhite"
+        android:background="@drawable/button_selector2"
         android:padding="10dp"
         android:text="Điện thoại - Máy tính"
         android:gravity="left|center_vertical"
@@ -31,7 +29,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/border"
+        android:background="@drawable/button_selector2"
         android:padding="10dp"
         android:text="Điện thoại Smartphone"
         android:textSize="13dp"
@@ -44,7 +42,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/border"
+        android:background="@drawable/button_selector2"
         android:padding="10dp"
         android:text="Máy tính bảng"
         android:textSize="13dp"
@@ -57,7 +55,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/border"
+        android:background="@drawable/button_selector2"
         android:padding="10dp"
         android:text="Laptop"
         android:textSize="13dp"
@@ -70,7 +68,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/border"
+        android:background="@drawable/button_selector2"
         android:padding="10dp"
         android:text="PC"
         android:textSize="13dp"
@@ -83,7 +81,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/border"
+        android:background="@drawable/button_selector2"
         android:padding="10dp"
         android:text="Phụ kiện"
         android:textSize="13dp"

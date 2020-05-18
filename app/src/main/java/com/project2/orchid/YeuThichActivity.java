@@ -1,16 +1,18 @@
 package com.project2.orchid;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,23 +24,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project2.orchid.object.Product;
 
 import java.util.ArrayList;
 
 public class YeuThichActivity extends AppCompatActivity {
     DatabaseReference reference, delete;
     ArrayList<Product> lstYeuthich;
-    ImageButton back;
+    ImageView back;
     FirebaseAuth mAuth;
-    ConstraintLayout constraintLayout;
+    ScrollView layout;
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    boolean j;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yeu_thich);
 
-        constraintLayout = findViewById(R.id.layout_yeuthich);
+        layout = findViewById(R.id.layout_yeuthich);
         back = findViewById(R.id.yeuthich_back);
 
         LinearLayoutManager layoutManagerGioHang = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -48,7 +52,7 @@ public class YeuThichActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        reference = FirebaseDatabase.getInstance().getReference().child("User").child(currentUser.getUid()).child("YeuThich");
+        reference = FirebaseDatabase.getInstance().getReference().child("Favourite").child(currentUser.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -58,35 +62,44 @@ public class YeuThichActivity extends AppCompatActivity {
                     Product p = dataSnapshot1.getValue(Product.class);
                     lstYeuthich.add(p);
                 }
-                final RecyclerViewAdapterGioHang myAdapterGioHang = new RecyclerViewAdapterGioHang(YeuThichActivity.this, lstYeuthich);
-                recyclerViewGioHang.setAdapter(myAdapterGioHang);
-                myAdapterGioHang.notifyDataSetChanged();
+                final RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(YeuThichActivity.this, lstYeuthich);
+                recyclerViewGioHang.setAdapter(myAdapter);
+                myAdapter.notifyDataSetChanged();
 
                 SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(YeuThichActivity.this) {
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                         final int position = viewHolder.getAdapterPosition();
-                        final Product item = myAdapterGioHang.getData().get(position);
+                        final Product item = myAdapter.getData().get(position);
+                        j = true;
 
-                        StorageReference photoRef = storage.getReferenceFromUrl(item.getHinhAnh());
-                        delete = FirebaseDatabase.getInstance().getReference().child("User").child(currentUser.getUid()).child("YeuThich").child(item.getTen());
-                        delete.removeValue();
-
-                        photoRef.delete();
-                        myAdapterGioHang.removeItem(position);
+                        myAdapter.removeItem(position);
                         Snackbar snackbar = Snackbar
-                                .make(constraintLayout, "Item was removed from the list.", Snackbar.LENGTH_LONG);
-//                        snackbar.setAction("UNDO", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                myAdapter.restoreItem(item, position);
-//                                recyclerViewGioHang.scrollToPosition(position);
-//                            }
-//                        });
-//
-//                        snackbar.setActionTextColor(Color.YELLOW);
+                                .make(layout, "Item was removed from the list.", Snackbar.LENGTH_LONG);
+                        snackbar.setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                j = false;
+                                myAdapter.restoreItem(item, position);
+                                recyclerViewGioHang.scrollToPosition(position);
+                            }
+                        });
+                        snackbar.setActionTextColor(Color.YELLOW);
                         snackbar.show();
 
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (j) {
+                                    StorageReference photoRef = storage.getReferenceFromUrl(item.getHinhAnh());
+                                    delete = FirebaseDatabase.getInstance().getReference().child("Favourite").child(currentUser.getUid()).child(item.getTen());
+                                    delete.removeValue();
+
+                                    photoRef.delete();
+                                }
+                            }
+                        }, 2900);
                     }
                 };
                 ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
@@ -106,4 +119,5 @@ public class YeuThichActivity extends AppCompatActivity {
             }
         });
     }
+
 }

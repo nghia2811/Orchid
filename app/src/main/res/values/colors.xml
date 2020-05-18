@@ -8,5 +8,6 @@
     <color name="colorOrange">#FFCC80</color>
     <color name="colorRed">#D50000</color>
     <color name="colorBlue">#4054C5</color>
+    <color name="colorTransparent">#00ff0000</color>
 
 </resources>

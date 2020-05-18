@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/border">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thông tin bảo hành"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:layout_marginTop="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorGray"
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Nhà cung cấp:"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/baohanh_ncc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="nhà cung cấp"
+            android:textColor="@color/colorBlack"
+            android:layout_marginStart="85dp"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Thời gian bảo hành:"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12 tháng"
+            android:textColor="@color/colorBlack"
+            android:layout_marginStart="85dp"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorGray"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Hình thức bảo hành:"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đổi trả"
+            android:textColor="@color/colorBlack"
+            android:layout_marginStart="85dp"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Nơi bảo hành:"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/baohanh_noibaohanh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="nơi bảo hành"
+            android:textColor="@color/colorBlack"
+            android:layout_marginStart="85dp"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorGray"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Hướng dẫn bảo hành:"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/baohanh_chitiet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xem chi tiết"
+            android:textColor="@color/colorBlue"
+            android:layout_marginStart="75dp"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

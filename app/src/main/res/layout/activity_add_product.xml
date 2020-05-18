@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -18,12 +17,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btn_add_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:background="@color/colorPrimary"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_arrow_back_black_24dp" />
 
             <TextView
@@ -36,28 +35,30 @@
                 android:textStyle="bold"
                 android:layout_marginStart="5dp"/>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btn_refresh"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="100dp"
-                android:background="@drawable/ic_refresh_black_24dp" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_refresh_black_24dp" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btn_save"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/ic_check_black_24dp" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_check_black_24dp" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/image_add"
-            android:layout_width="150dp"
-            android:layout_height="165dp"
+            android:layout_width="120dp"
+            android:layout_height="135dp"
             android:scaleType="fitXY"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="35dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintStart_toEndOf="@+id/edt_tensp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +69,6 @@
             android:layout_height="wrap_content"
             android:text="Tên sản phẩm:"
             android:textSize="18sp"
-            android:textColor="@color/colorBlack"
             android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
 
         <EditText
             android:id="@+id/edt_tensp"
-            android:layout_width="170dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:layout_marginTop="40dp"
@@ -85,11 +85,10 @@
             app:layout_constraintTop_toBottomOf="@id/layout_add"/>
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Giá tiền:"
+            android:text="Giá tiền (VNĐ):"
             android:textSize="18sp"
-            android:textColor="@color/colorBlack"
             android:layout_marginTop="20dp"
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,11 +96,12 @@
 
         <EditText
             android:id="@+id/edt_giatien"
-            android:layout_width="170dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorRed"
             android:layout_marginTop="50dp"
             android:layout_marginStart="5dp"
+            android:inputType="number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edt_tensp"/>
 

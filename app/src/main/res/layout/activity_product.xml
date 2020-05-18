@@ -26,27 +26,29 @@
                 android:background="@color/colorPrimary"
                 android:gravity="center_vertical">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_product_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:background="@color/colorPrimary"
-                    android:src="@drawable/ic_arrow_back_black_24dp" />
+                    android:src="@drawable/ic_arrow_back_black_24dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_giohang"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="230dp"
-                    android:background="@drawable/ic_local_grocery_store_black_50dp" />
+                    android:src="@drawable/ic_local_grocery_store_black_50dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_product_like"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:background="@drawable/ic_favorite_black_24dp" />
+                    android:src="@drawable/ic_favorite_black_24dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless" />
             </LinearLayout>
 
             <LinearLayout
@@ -56,6 +58,8 @@
                 android:orientation="vertical">
 
                 <ImageView
+
+
                     android:id="@+id/category_thumbnail"
                     android:layout_width="150dp"
                     android:layout_height="180dp"
@@ -163,6 +167,7 @@
                     app:layout_constraintTop_toBottomOf="@id/img_thongtin" />
 
                 <TextView
+                    android:background="?android:attr/selectableItemBackground"
                     android:id="@+id/text_xemthembaohanh"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
@@ -213,11 +218,11 @@
                         android:textColor="@color/colorBlue"
                         android:textSize="15sp" />
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="100dp"
-                        android:background="@color/colorGray"
+                        android:layout_marginStart="80dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
                 </LinearLayout>
 
@@ -291,7 +296,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/colorWhite"
+                    android:background="@drawable/button_selector2"
                     android:text="XEM THÊM"
                     android:textColor="@color/colorBlue" />
             </LinearLayout>
@@ -326,7 +331,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/colorWhite"
+                    android:background="@drawable/button_selector2"
                     android:text="XEM THÊM"
                     android:textColor="@color/colorBlue" />
             </LinearLayout>
@@ -344,7 +349,7 @@
             android:id="@+id/btn_chonmua"
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:background="@drawable/border2"
+            android:background="@drawable/button_selector"
             android:text="Chọn Mua"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"

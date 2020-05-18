@@ -1,30 +1,29 @@
 package com.project2.orchid;
 
-import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,22 +34,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.project2.orchid.object.Product;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Calendar;
 
 public class ProductActivity extends AppCompatActivity {
-    private TextView tensp, gia, danhmuc, nhasx, thuonghieu, xuatxu, mota;
+    private TextView tensp, gia, danhmuc, nhasx, thuonghieu, xuatxu, mota, baohanh;
     private ImageView img;
-    ImageButton back, like, gioHang;
+    ImageView back, like, gioHang;
     Button chonmua;
-    DatabaseReference ref, mData, giohang;
+    DatabaseReference ref, mData;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     FirebaseAuth mAuth;
+    BottomSheetDialog bottomDialog;
+    String nhacc, noisanxuat, name, nguoiBan, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +62,20 @@ public class ProductActivity extends AppCompatActivity {
         thuonghieu = (TextView) findViewById(R.id.txt_thuonghieu);
         xuatxu = (TextView) findViewById(R.id.txt_xuatxu);
         mota = (TextView) findViewById(R.id.txt_mota);
+        baohanh = findViewById(R.id.text_xemthembaohanh);
 
-        chonmua = (Button) findViewById(R.id.btn_chonmua);
-        img = (ImageView) findViewById(R.id.category_thumbnail);
-        back = (ImageButton) findViewById(R.id.btn_product_back);
-        like = (ImageButton) findViewById(R.id.btn_product_like);
-        gioHang  = (ImageButton) findViewById(R.id.btn_giohang);
+        chonmua = findViewById(R.id.btn_chonmua);
+        img = findViewById(R.id.category_thumbnail);
+        back = findViewById(R.id.btn_product_back);
+        like = findViewById(R.id.btn_product_like);
+        gioHang = findViewById(R.id.btn_giohang);
+
+        // Recieve data
+        Intent intent = getIntent();
+        name = intent.getExtras().getString("Ten");
+        loadData();
+        getCurrentUser();
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,82 +83,18 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
 
-        // Recieve data
-        Intent intent = getIntent();
-        String name = intent.getExtras().getString("Ten");
-        String danhMuc = intent.getExtras().getString("DanhMuc");
-
-        mAuth = FirebaseAuth.getInstance();
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        ref = FirebaseDatabase.getInstance().getReference().child("Product").child(danhMuc).child(name);
-        ref.addValueEventListener(new ValueEventListener() {
+        baohanh.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Setting values
-                tensp.setText(dataSnapshot.child("ten").getValue().toString());
-                gia.setText(dataSnapshot.child("giaTien").getValue().toString());
-                danhmuc.setText(dataSnapshot.child("danhMuc").getValue().toString());
-                nhasx.setText(dataSnapshot.child("nhaSanXuat").getValue().toString());
-                thuonghieu.setText(dataSnapshot.child("thuơngHieu").getValue().toString());
-                xuatxu.setText(dataSnapshot.child("xuatXu").getValue().toString());
-                mota.setText(dataSnapshot.child("mota").getValue().toString());
-
-                LoadImage loadImage = new LoadImage(img);
-                loadImage.execute(dataSnapshot.child("hinhAnh").getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(ProductActivity.this, "load thất bại", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                createBottomDialog();
+                bottomDialog.show();
             }
         });
 
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mData = FirebaseDatabase.getInstance().getReference();
-                final StorageReference storageRef = storage.getReferenceFromUrl("gs://orchid-29b28.appspot.com");
-                Calendar calendar = Calendar.getInstance();
-                StorageReference mountainsRef = storageRef.child("image" + calendar.getTimeInMillis() + ".png");
-
-                // Get the data from an ImageView as bytes
-                img.setDrawingCacheEnabled(true);
-                img.buildDrawingCache();
-                Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] data = baos.toByteArray();
-
-                UploadTask uploadTask = mountainsRef.putBytes(data);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!urlTask.isSuccessful()) ;
-                        Uri downloadUrl = urlTask.getResult();
-                        // tạo node trên Database
-                        Product product = new Product(tensp.getText().toString(), String.valueOf(downloadUrl), gia.getText().toString(),
-                                danhmuc.getText().toString(), nhasx.getText().toString(), thuonghieu.getText().toString(),
-                                xuatxu.getText().toString(), mota.getText().toString());
-                        mData.child("User").child(currentUser.getUid()).child("YeuThich").child(tensp.getText().toString()).setValue(product, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                if (databaseError == null) {
-                                    Toast.makeText(ProductActivity.this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(ProductActivity.this, "upload thất bại", Toast.LENGTH_SHORT).show();
-                                }
-                                ;
-                            }
-                        });
-                    }
-                });
+                addLike();
             }
         });
 
@@ -167,76 +109,169 @@ public class ProductActivity extends AppCompatActivity {
         chonmua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                giohang = FirebaseDatabase.getInstance().getReference();
-                final StorageReference storageRef = storage.getReferenceFromUrl("gs://orchid-29b28.appspot.com");
-                Calendar calendar = Calendar.getInstance();
-                StorageReference mountainsRef = storageRef.child("image" + calendar.getTimeInMillis() + ".png");
-
-                // Get the data from an ImageView as bytes
-                img.setDrawingCacheEnabled(true);
-                img.buildDrawingCache();
-                Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] data = baos.toByteArray();
-
-                UploadTask uploadTask = mountainsRef.putBytes(data);
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!urlTask.isSuccessful()) ;
-                        Uri downloadUrl = urlTask.getResult();
-                        // tạo node trên Database
-                        Product product = new Product(tensp.getText().toString(), String.valueOf(downloadUrl), gia.getText().toString(),
-                                danhmuc.getText().toString(), nhasx.getText().toString(), thuonghieu.getText().toString(),
-                                xuatxu.getText().toString(), mota.getText().toString());
-                        giohang.child("User").child(currentUser.getUid()).child("GioHang").child(tensp.getText().toString()).setValue(product, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                if (databaseError == null) {
-                                    Toast.makeText(ProductActivity.this, "Đã thêm vào danh sách giỏ hàng", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(ProductActivity.this, "upload thất bại", Toast.LENGTH_SHORT).show();
-                                }
-                                ;
-                            }
-                        });
-                    }
-                });
+                if (nguoiBan.equals(id))
+                    Toast.makeText(ProductActivity.this, "Đây là sản phẩm bạn đăng bán", Toast.LENGTH_SHORT).show();
+                else addToCart();
             }
         });
     }
 
+    private void createBottomDialog() {
+        if (bottomDialog == null) {
+            View view = LayoutInflater.from(this).inflate(R.layout.bottom_dialog, null);
+            TextView nhacungcap, noibaohanh;
+            nhacungcap = view.findViewById(R.id.baohanh_ncc);
+            noibaohanh = view.findViewById(R.id.baohanh_noibaohanh);
 
-    private class LoadImage extends AsyncTask<String, Void, Bitmap> {
-        ImageView img;
-        public LoadImage(ImageView ivResult) {
-            this.img = ivResult;
-        }
+            nhacungcap.setText(nhacc);
+            noibaohanh.setText(noisanxuat);
 
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            String urlLink = strings[0];
-            Bitmap bitmap = null;
-            try {
-                InputStream inputStream = new java.net.URL(urlLink).openStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            img.setImageBitmap(bitmap);
+            bottomDialog = new BottomSheetDialog(this);
+            bottomDialog.setContentView(view);
         }
     }
 
+    private void loadData() {
+        ref = FirebaseDatabase.getInstance().getReference().child("Product").child(name);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                tensp.setText(dataSnapshot.child("ten").getValue().toString());
+                gia.setText(dataSnapshot.child("giaTien").getValue().toString());
+                danhmuc.setText(dataSnapshot.child("danhMuc").getValue().toString());
+                nhasx.setText(dataSnapshot.child("nhaSanXuat").getValue().toString());
+                thuonghieu.setText(dataSnapshot.child("thuơngHieu").getValue().toString());
+                xuatxu.setText(dataSnapshot.child("xuatXu").getValue().toString());
+                mota.setText(dataSnapshot.child("mota").getValue().toString());
+                Glide.with(ProductActivity.this).load(dataSnapshot.child("hinhAnh").getValue().toString())
+                        .placeholder(R.drawable.noimage).into(img);
+
+                nguoiBan = dataSnapshot.child("nguoiBan").getValue().toString();
+                nhacc = dataSnapshot.child("thuơngHieu").getValue().toString();
+                noisanxuat = dataSnapshot.child("nhaSanXuat").getValue().toString();
+
+                final String tempUrl = dataSnapshot.child("hinhAnh").getValue().toString();
+                img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Dialog dialog = new Dialog(ProductActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                        PhotoView photoView = new PhotoView(ProductActivity.this);
+                        Glide.with(ProductActivity.this).load(tempUrl).into(photoView);
+                        photoView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.addContentView(photoView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                        dialog.setCanceledOnTouchOutside(true);
+                        dialog.show();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ProductActivity.this, "load thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void addLike() {
+        final LoadingDialog loadingDialog = new LoadingDialog(ProductActivity.this);
+        loadingDialog.startLoadingDialog();
+        mData = FirebaseDatabase.getInstance().getReference();
+        final StorageReference storageRef = storage.getReferenceFromUrl("gs://orchid-29b28.appspot.com");
+        Calendar calendar = Calendar.getInstance();
+        final StorageReference mountainsRef = storageRef.child("image" + calendar.getTimeInMillis() + ".png");
+
+        // Get the data from an ImageView as bytes
+        img.setDrawingCacheEnabled(true);
+        img.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = mountainsRef.putBytes(data);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                }
+                return mountainsRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    String url = task.getResult().toString();
+                    Product product = new Product(tensp.getText().toString(), String.valueOf(url), gia.getText().toString(),
+                            danhmuc.getText().toString(), nhasx.getText().toString(), thuonghieu.getText().toString(),
+                            xuatxu.getText().toString(), mota.getText().toString(), nguoiBan);
+                    mData.child("Favourite").child(id).child(tensp.getText().toString()).setValue(product);
+                    loadingDialog.dismissDialog();
+                    Toast.makeText(ProductActivity.this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
+                } else {
+                    loadingDialog.dismissDialog();
+                    Toast.makeText(ProductActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void addToCart() {
+        final LoadingDialog loadingDialog = new LoadingDialog(ProductActivity.this);
+        loadingDialog.startLoadingDialog();
+
+        mData = FirebaseDatabase.getInstance().getReference();
+
+        final StorageReference storageRef = storage.getReferenceFromUrl("gs://orchid-29b28.appspot.com");
+        Calendar calendar = Calendar.getInstance();
+        final StorageReference mountainsRef = storageRef.child("image" + calendar.getTimeInMillis() + ".png");
+
+        // Get the data from an ImageView as bytes
+        img.setDrawingCacheEnabled(true);
+        img.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = mountainsRef.putBytes(data);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                }
+                return mountainsRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    String url = task.getResult().toString();
+                    Product product = new Product(tensp.getText().toString(), String.valueOf(url), gia.getText().toString(),
+                            danhmuc.getText().toString(), nhasx.getText().toString(), thuonghieu.getText().toString(),
+                            xuatxu.getText().toString(), mota.getText().toString(), nguoiBan);
+                    mData.child("Cart").child(id).child(tensp.getText().toString()).setValue(product);
+                    loadingDialog.dismissDialog();
+                    Toast.makeText(ProductActivity.this, "Đã thêm vào Giỏ hàng", Toast.LENGTH_SHORT).show();
+                } else {
+                    loadingDialog.dismissDialog();
+                    Toast.makeText(ProductActivity.this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void getCurrentUser() {
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        id = currentUser.getUid();
+    }
 }

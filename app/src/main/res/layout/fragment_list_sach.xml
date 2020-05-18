@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -10,9 +8,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
     <Button
+        android:id="@+id/btn_list_sach"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/colorWhite"
+        android:background="@drawable/button_selector2"
         android:padding="10dp"
         android:text="Sách - Văn phòng phẩm"
         android:gravity="left|center_vertical"
@@ -54,6 +53,7 @@
             android:layout_height="wrap_content"
             android:text="XEM THÊM"
             android:textSize="13dp"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/colorBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -90,6 +90,7 @@
             android:layout_height="wrap_content"
             android:text="XEM THÊM"
             android:textSize="13dp"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/colorBlue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

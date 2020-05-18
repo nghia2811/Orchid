@@ -1,13 +1,13 @@
-package com.project2.orchid;
+package com.project2.orchid.object;
 
 public class Product {
 
-    private String Ten, HinhAnh, DanhMuc, NhaSanXuat, ThuơngHieu, XuatXu, Mota, GiaTien;
+    private String Ten, HinhAnh, DanhMuc, NhaSanXuat, ThuơngHieu, XuatXu, Mota, GiaTien, NguoiBan;
 
     public Product() {
     }
 
-    public Product(String ten, String hinhAnh, String giaTien, String danhMuc, String nhaSanXuat, String thuơngHieu, String xuatXu, String mota) {
+    public Product(String ten, String hinhAnh, String giaTien, String danhMuc, String nhaSanXuat, String thuơngHieu, String xuatXu, String mota, String nguoiBan) {
         Ten = ten;
         HinhAnh = hinhAnh;
         DanhMuc = danhMuc;
@@ -16,6 +16,7 @@ public class Product {
         XuatXu = xuatXu;
         Mota = mota;
         GiaTien = giaTien;
+        NguoiBan = nguoiBan;
     }
 
     public String getTen() {
@@ -80,5 +81,13 @@ public class Product {
 
     public void setGiaTien(String giaTien) {
         GiaTien = giaTien;
+    }
+
+    public String getNguoiBan() {
+        return NguoiBan;
+    }
+
+    public void setNguoiBan(String nguoiBan) {
+        NguoiBan = nguoiBan;
     }
 }
