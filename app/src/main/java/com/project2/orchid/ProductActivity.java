@@ -38,6 +38,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project2.orchid.object.Comment;
+import com.project2.orchid.object.Notification;
 import com.project2.orchid.object.Product;
 
 import java.io.ByteArrayOutputStream;
@@ -55,7 +56,7 @@ public class ProductActivity extends AppCompatActivity {
     DatabaseReference ref, mData;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     FirebaseAuth mAuth;
-    BottomSheetDialog bottomDialog;
+    BottomSheetDialog bottomDialog, bottomDialod1;
     String nhacc, noisanxuat, name, nguoiBan, id, tenkhachhang;
     ArrayList<Comment> lstComment;
     RecyclerView recyclerView;
@@ -100,7 +101,7 @@ public class ProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createBottomDialog();
-                bottomDialog.show();
+                bottomDialod1.show();
             }
         });
 
@@ -140,17 +141,30 @@ public class ProductActivity extends AppCompatActivity {
     }
 
     private void createBottomDialog() {
-        if (bottomDialog == null) {
+        if (bottomDialod1 == null) {
             View view = LayoutInflater.from(this).inflate(R.layout.bottom_dialog, null);
-            TextView nhacungcap, noibaohanh;
+            final TextView nhacungcap, noibaohanh, nguoiban;
             nhacungcap = view.findViewById(R.id.baohanh_ncc);
             noibaohanh = view.findViewById(R.id.baohanh_noibaohanh);
+            nguoiban = view.findViewById(R.id.baohanh_nguoiban);
 
+            ref = FirebaseDatabase.getInstance().getReference().child("User").child(nguoiBan);
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    nguoiban.setText(dataSnapshot.child("ten").getValue().toString());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(ProductActivity.this, "load thất bại", Toast.LENGTH_SHORT).show();
+                }
+            });
             nhacungcap.setText(nhacc);
             noibaohanh.setText(noisanxuat);
 
-            bottomDialog = new BottomSheetDialog(this);
-            bottomDialog.setContentView(view);
+            bottomDialod1 = new BottomSheetDialog(this);
+            bottomDialod1.setContentView(view);
         }
     }
 
@@ -176,7 +190,9 @@ public class ProductActivity extends AppCompatActivity {
                         mData.child("Product").child(name).child("Comment").child(dateFormat.format(date)).setValue(comment);
                         edtComment.setText(null);
                         if (!nguoiBan.equals(id)) {
-                            mData.child("User").child(nguoiBan).child("Notifications").child(dateFormat.format(date)).setValue(comment);
+                            Notification notification = new Notification(dateFormat.format(date), name, tenkhachhang);
+                            mData = FirebaseDatabase.getInstance().getReference();
+                            mData.child("Notifications").child(nguoiBan).child(dateFormat.format(date)).setValue(notification);
                         }
                         Toast.makeText(ProductActivity.this, "Đã gửi nhận xét", Toast.LENGTH_SHORT).show();
                         bottomDialog.dismiss();
@@ -193,7 +209,6 @@ public class ProductActivity extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 tensp.setText(dataSnapshot.child("ten").getValue().toString());
                 gia.setText(dataSnapshot.child("giaTien").getValue().toString());
                 danhmuc.setText(dataSnapshot.child("danhMuc").getValue().toString());
@@ -221,7 +236,6 @@ public class ProductActivity extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         });
-
                         dialog.addContentView(photoView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                         dialog.setCanceledOnTouchOutside(true);
                         dialog.show();

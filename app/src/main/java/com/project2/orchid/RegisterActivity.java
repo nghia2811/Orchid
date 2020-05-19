@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (user.getText().toString().equals("") || password.getText().toString().equals("") || ten.getText().toString().equals("") || diachi.getText().toString().equals("")) {
+                if (user.getText().toString().equals("") || password.getText().toString().equals("") || ten.getText().toString().equals("") || diachi.getText().toString().equals("") || uri.equals(null)) {
                     Toast.makeText(RegisterActivity.this, "Vui lòng thêm đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 } else {
                     DangKi();

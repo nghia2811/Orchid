@@ -45,36 +45,42 @@
             android:layout_height="wrap_content"
             android:id="@+id/recyclerView_thongbao"
             android:orientation="horizontal" />
-        <LinearLayout
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="655dp"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:id="@+id/thongbao_host_fragment"
-            android:background="@color/colorWhite">
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:background="@drawable/logobk"
-                android:scaleType="fitXY"
-                android:layout_marginTop="100dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bạn chưa có thông báo nào"
-                android:textColor="@color/colorBlack"
-                android:textSize="15sp"
-                android:layout_marginTop="5dp"/>
+            android:id="@+id/thongbao_host_fragment" />
 
-            <Button
-                android:id="@+id/thongbao_tieptuc"
-                android:layout_width="200dp"
-                android:layout_height="45dp"
-                android:background="@drawable/button_selector"
-                android:layout_marginTop="10dp"
-                android:text="Tiếp tục mua sắm"
-                android:textColor="@color/colorWhite" />
-        </LinearLayout>
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="655dp"-->
+        <!--            android:orientation="vertical"-->
+        <!--            android:gravity="center_horizontal"-->
+        <!--            android:id="@+id/thongbao_host_fragment"-->
+        <!--            android:background="@color/colorWhite">-->
+        <!--            <ImageView-->
+        <!--                android:layout_width="100dp"-->
+        <!--                android:layout_height="150dp"-->
+        <!--                android:background="@drawable/logobk"-->
+        <!--                android:scaleType="fitXY"-->
+        <!--                android:layout_marginTop="100dp" />-->
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="Bạn chưa có thông báo nào"-->
+        <!--                android:textColor="@color/colorBlack"-->
+        <!--                android:textSize="15sp"-->
+        <!--                android:layout_marginTop="5dp"/>-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/thongbao_tieptuc"-->
+        <!--                android:layout_width="200dp"-->
+        <!--                android:layout_height="45dp"-->
+        <!--                android:background="@drawable/button_selector"-->
+        <!--                android:layout_marginTop="10dp"-->
+        <!--                android:text="Tiếp tục mua sắm"-->
+        <!--                android:textColor="@color/colorWhite" />-->
+        <!--        </LinearLayout>-->
     </LinearLayout>
 </LinearLayout>
 

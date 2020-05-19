@@ -26,7 +26,7 @@
             android:textColor="#939090"
             android:paddingStart="10dp"
             android:drawableStart="@drawable/ic_search_black_24dp"
-            android:gravity="center|left"/>
+            android:gravity="center|left" />
 
         <ImageView
             android:id="@+id/btn_list_giohang"
@@ -44,12 +44,14 @@
         android:layout_marginBottom="55dp"
         android:orientation="horizontal"
         android:weightSum="11">
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:id="@+id/recyclerView_list_danhmuc"
-        android:orientation="horizontal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:id="@+id/recyclerView_list_danhmuc"
+            android:orientation="horizontal" />
+
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="655dp"

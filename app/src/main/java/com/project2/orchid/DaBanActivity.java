@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -30,7 +31,8 @@ import java.util.ArrayList;
 
 public class DaBanActivity extends AppCompatActivity {
 
-    DatabaseReference reference, delete;
+    DatabaseReference delete;
+    Query reference;
     ArrayList<Product> lstDaban = new ArrayList<>();
     ImageView back;
     FirebaseAuth mAuth;
@@ -56,7 +58,7 @@ public class DaBanActivity extends AppCompatActivity {
         final RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(DaBanActivity.this, lstDaban);
 
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Warehouse").child(currentUser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("nguoiBan").equalTo(currentUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -95,8 +97,6 @@ public class DaBanActivity extends AppCompatActivity {
                             public void run() {
                                 if (j) {
                                     StorageReference photoRef = storage.getReferenceFromUrl(item.getHinhAnh());
-                                    delete = FirebaseDatabase.getInstance().getReference().child("Warehouse").child(currentUser.getUid()).child(item.getTen());
-                                    delete.removeValue();
 
                                     delete = FirebaseDatabase.getInstance().getReference().child("Product").child(item.getTen());
                                     delete.removeValue();

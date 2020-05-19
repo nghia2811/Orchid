@@ -50,8 +50,8 @@ public class HomeFragment extends Fragment {
     ViewPager viewPager;
     ProgressBar loadingView;
     SwipeRefreshLayout swipeRefreshLayout;
-    DatabaseReference reference, refDaxem, refQuanao, refNhacua, refLamdep, refSach;
-    Query refDienthoai;
+    DatabaseReference reference, refDaxem, refNhacua, refLamdep, refSach;
+    Query refDienthoai, refQuanao;
     TextView xemthemYeuThich, xemthemNoiBat, xemthemDanhmuc;
     FirebaseAuth mAuth;
 
@@ -311,14 +311,13 @@ public class HomeFragment extends Fragment {
         final RecyclerView recyclerViewQuanao = (RecyclerView) root.findViewById(R.id.recyclerView_home_quanao);
         recyclerViewQuanao.setLayoutManager(layoutManagerQuanao);
 
-        refQuanao = FirebaseDatabase.getInstance().getReference().child("Product");
+        refQuanao = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("danhMuc").equalTo("Quần áo - Thời trang");
         refQuanao.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lstQuanao = new ArrayList<Product>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
-                    if (p.getDanhMuc().equals("Quần áo - Thời trang"))
                         lstQuanao.add(p);
                 }
                 RecyclerViewAdapter myAdapterQuanao = new RecyclerViewAdapter(getContext(), lstQuanao);

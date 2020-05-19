@@ -1,8 +1,6 @@
 package com.project2.orchid;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,7 +31,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project2.orchid.object.Product;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 public class AddProductActivity extends AppCompatActivity {
@@ -50,6 +47,8 @@ public class AddProductActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     String id;
     LoadingDialog loadingDialog;
+
+    Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +87,7 @@ public class AddProductActivity extends AppCompatActivity {
                 if (edtTensp.getText().toString().equals("") || edtGiatien.getText().toString().equals("") ||
                         btnChon.getText().toString().equals("") || edtNhasanxuat.getText().toString().equals("") ||
                         edtThuonghieu.getText().toString().equals("") || edtXuatxu.getText().toString().equals("") ||
-                        edtMota.getText().toString().equals("")) {
+                        edtMota.getText().toString().equals("") || uri.equals(null)) {
                     Toast.makeText(AddProductActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 } else {
                     loadingDialog = new LoadingDialog(AddProductActivity.this);
@@ -131,15 +130,6 @@ public class AddProductActivity extends AppCompatActivity {
         edtMota.setText(null);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            Uri selectedImage = data.getData();
-            imageAdd.setImageURI(selectedImage);
-        }
-    }
-
     private void ShowMenu() {
         PopupMenu popupMenu = new PopupMenu(this, btnChon);
         popupMenu.getMenuInflater().inflate(R.menu.menu_danh_muc, popupMenu.getMenu());
@@ -178,15 +168,7 @@ public class AddProductActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         final StorageReference mountainsRef = storageRef.child("image" + calendar.getTimeInMillis() + ".png");
 
-        // Get the data from an ImageView as bytes
-        imageAdd.setDrawingCacheEnabled(true);
-        imageAdd.buildDrawingCache();
-        Bitmap bitmap = ((BitmapDrawable) imageAdd.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = mountainsRef.putBytes(data);
+        UploadTask uploadTask = mountainsRef.putFile(uri);
 
         uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
@@ -206,7 +188,7 @@ public class AddProductActivity extends AppCompatActivity {
                             btnChon.getText().toString(), edtNhasanxuat.getText().toString(), edtThuonghieu.getText().toString(),
                             edtXuatxu.getText().toString(), edtMota.getText().toString(), id);
                     mData.child("Product").child(edtTensp.getText().toString()).setValue(product);
-                    mData.child("Warehouse").child(id).child(edtTensp.getText().toString()).setValue(product);
+
                     loadingDialog.dismissDialog();
                     Toast.makeText(AddProductActivity.this, "Upload thành công", Toast.LENGTH_SHORT).show();
                     createBottomDialog();
@@ -263,7 +245,8 @@ public class AddProductActivity extends AppCompatActivity {
             name.setText(edtTensp.getText());
             nhasanxuat.setText(edtNhasanxuat.getText());
             gia.setText(edtGiatien.getText() + " đ");
-            addImage.setImageBitmap(convertImageViewToBitmap(imageAdd));
+            addImage.setImageURI(uri);
+            ;
 
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -311,8 +294,13 @@ public class AddProductActivity extends AppCompatActivity {
         id = currentUser.getUid();
     }
 
-    private Bitmap convertImageViewToBitmap(ImageView v) {
-        Bitmap bm = ((BitmapDrawable) v.getDrawable()).getBitmap();
-        return bm;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            uri = data.getData();
+            imageAdd.setImageURI(uri);
+        }
     }
 }

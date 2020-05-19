@@ -292,14 +292,14 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/button_selector2"
-                    android:text="XEM THÊM"
-                    android:textColor="@color/colorBlue" />
             </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/button_selector2"
+                android:text="XEM THÊM"
+                android:textColor="@color/colorBlue" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -326,14 +326,14 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/button_selector2"
-                    android:text="XEM THÊM"
-                    android:textColor="@color/colorBlue" />
             </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/button_selector2"
+                android:text="XEM THÊM"
+                android:textColor="@color/colorBlue" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -362,12 +362,12 @@
                 <Button
                     android:id="@+id/vietnhanxet"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="45dp"
                     android:background="@drawable/button_selector2"
                     android:text="Viết nhận xét"
                     android:textColor="@color/colorBlue" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
     <LinearLayout

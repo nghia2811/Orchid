@@ -44,7 +44,6 @@ public class RecyclerViewAdapterThoiTrang extends RecyclerView.Adapter<RecyclerV
 
                 // passing data to the book activity
                 intent.putExtra("Ten",mData.get(position).getTitle());
-                intent.putExtra("DanhMuc","Quần áo - Thời trang");
                 // start the activity
                 mContext.startActivity(intent);
             }

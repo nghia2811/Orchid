@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project2.orchid.object.Category2;
@@ -19,6 +21,8 @@ public class RecyclerViewAdapterThongbao extends RecyclerView.Adapter<RecyclerVi
     private ThongBaoFragment mContext ;
     private List<Category2> mData ;
     List<LinearLayout> cardViewList = new ArrayList<>();
+    Fragment newFragment;
+    FragmentTransaction transaction;
 
     public RecyclerViewAdapterThongbao(ThongBaoFragment mContext, List<Category2> mData) {
         this.mContext = mContext;
@@ -45,6 +49,26 @@ public class RecyclerViewAdapterThongbao extends RecyclerView.Adapter<RecyclerVi
                     cardView.setBackgroundResource(R.color.colorGray);
                 }
                 holder.cardView.setBackgroundResource(R.color.colorWhite);
+                switch (position) {
+                    case 0:
+                        newFragment = new NotificationFragment();
+                        transaction = mContext.getFragmentManager().beginTransaction();
+
+                        transaction.replace(R.id.thongbao_host_fragment, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
+                    case 1:
+                    case 2:
+                    case 3:
+                        newFragment = new Notification1Fragment();
+                        transaction = mContext.getFragmentManager().beginTransaction();
+
+                        transaction.replace(R.id.thongbao_host_fragment, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
+                }
             }
         });
     }
