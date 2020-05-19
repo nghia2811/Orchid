@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,7 +50,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 public class ProductActivity extends AppCompatActivity {
     private TextView tensp, gia, danhmuc, nhasx, thuonghieu, xuatxu, mota, baohanh;
@@ -62,7 +60,7 @@ public class ProductActivity extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     FirebaseAuth mAuth;
     BottomSheetDialog bottomDialog, bottomDialod1;
-    String nhacc, noisanxuat, name, nguoiBan, id, tenkhachhang;
+    String nhacc, noisanxuat, name, nguoiBan, id, tenkhachhang, imageLink;
     ArrayList<Comment> lstComment;
     RecyclerView recyclerView;
 
@@ -153,7 +151,7 @@ public class ProductActivity extends AppCompatActivity {
             noibaohanh = view.findViewById(R.id.baohanh_noibaohanh);
             nguoiban = view.findViewById(R.id.baohanh_nguoiban);
 
-            ref = FirebaseDatabase.getInstance().getReference().child("UserFragment").child(nguoiBan);
+            ref = FirebaseDatabase.getInstance().getReference().child("User").child(nguoiBan);
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -189,13 +187,14 @@ public class ProductActivity extends AppCompatActivity {
                         Toast.makeText(ProductActivity.this, "Vui lòng nhập nhận xét", Toast.LENGTH_SHORT).show();
                     } else {
                         mData = FirebaseDatabase.getInstance().getReference();
+
                         Date date = Calendar.getInstance().getTime();
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                         Comment comment = new Comment(edtComment.getText().toString(), id, tenkhachhang);
                         mData.child("Product").child(name).child("Comment").child(dateFormat.format(date)).setValue(comment);
                         edtComment.setText(null);
                         if (!nguoiBan.equals(id)) {
-                            Notification notification = new Notification(dateFormat.format(date), name, tenkhachhang);
+                            Notification notification = new Notification(dateFormat.format(date), name, tenkhachhang, imageLink);
                             mData = FirebaseDatabase.getInstance().getReference();
                             mData.child("Notifications").child(nguoiBan).child(dateFormat.format(date)).setValue(notification);
                         }
@@ -205,10 +204,7 @@ public class ProductActivity extends AppCompatActivity {
                 }
             });
             bottomDialog = new BottomSheetDialog(this);
-            Objects.requireNonNull(bottomDialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             bottomDialog.setContentView(view);
-            bottomDialog.getBehavior().setHideable(true);
-            bottomDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         }
     }
@@ -231,6 +227,7 @@ public class ProductActivity extends AppCompatActivity {
                 nguoiBan = dataSnapshot.child("nguoiBan").getValue().toString();
                 nhacc = dataSnapshot.child("thuơngHieu").getValue().toString();
                 noisanxuat = dataSnapshot.child("nhaSanXuat").getValue().toString();
+                imageLink = dataSnapshot.child("hinhAnh").getValue().toString();
 
                 final String tempUrl = dataSnapshot.child("hinhAnh").getValue().toString();
                 img.setOnClickListener(new View.OnClickListener() {

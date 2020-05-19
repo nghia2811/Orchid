@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,13 +46,6 @@ public class NotificationFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerView_notification);
         loadingView = root.findViewById(R.id.loading_view2);
         loadData();
-        if (lstNotifications.isEmpty()) {
-            Notification1Fragment fragment = new Notification1Fragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.thongbao_host_fragment, fragment);
-            fragmentTransaction.commit();
-        }
 
         return root;
     }
@@ -63,10 +54,8 @@ public class NotificationFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        final RecyclerViewAdapterNotification myAdapter = new RecyclerViewAdapterNotification(getContext(), lstNotifications);
-        recyclerView.setAdapter(myAdapter);
 
         ref = FirebaseDatabase.getInstance().getReference().child("Notifications").child(currentUser.getUid());
         ref.addValueEventListener(new ValueEventListener() {
@@ -78,9 +67,10 @@ public class NotificationFragment extends Fragment {
                     Notification p = dataSnapshot1.getValue(Notification.class);
                     lstNotifications.add(p);
                 }
-                myAdapter.notifyDataSetChanged();
+                final RecyclerViewAdapterNotification myAdapter = new RecyclerViewAdapterNotification(getContext(), lstNotifications);
+                recyclerView.setAdapter(myAdapter);
 
-                SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getContext()) {
+                SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getActivity()) {
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                         final int position = viewHolder.getAdapterPosition();
@@ -102,5 +92,6 @@ public class NotificationFragment extends Fragment {
                 Toast.makeText(getActivity(), "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }

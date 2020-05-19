@@ -1,15 +1,16 @@
 package com.project2.orchid.Object;
 
 public class Notification {
-    private String Title, Product, Customer;
+    private String Title, Product, Customer, Image;
 
     public Notification() {
     }
 
-    public Notification(String title, String product, String customer) {
+    public Notification(String title, String product, String customer, String image) {
         Title = title;
         Product = product;
         Customer = customer;
+        Image = image;
     }
 
     public String getTitle() {
@@ -34,5 +35,13 @@ public class Notification {
 
     public void setCustomer(String customer) {
         Customer = customer;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 }

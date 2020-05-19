@@ -9,17 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.project2.orchid.Activity.ProductActivity;
 import com.project2.orchid.Object.Notification;
 import com.project2.orchid.R;
@@ -31,6 +25,7 @@ public class RecyclerViewAdapterNotification extends RecyclerView.Adapter<Recycl
     private Context mContext;
     private ArrayList<Notification> mData;
     DatabaseReference ref;
+    String image;
 
     public RecyclerViewAdapterNotification(Context mContext, ArrayList<Notification> mData) {
         this.mContext = mContext;
@@ -50,20 +45,8 @@ public class RecyclerViewAdapterNotification extends RecyclerView.Adapter<Recycl
         holder.title.setText(mData.get(position).getTitle());
         String sourceString = "<b>" + mData.get(position).getCustomer() + "</b> " + " đã bình luận về sản phẩm của bạn";
         holder.comment.setText(Html.fromHtml(sourceString));
+        Glide.with(mContext).load(mData.get(position).getImage()).placeholder(R.drawable.noimage).into(holder.thumbnail);
 
-        ref = FirebaseDatabase.getInstance().getReference().child("Product").child(mData.get(position).getProduct());
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Glide.with(mContext).load(dataSnapshot.child("hinhAnh").getValue().toString())
-                        .placeholder(R.drawable.noimage).into(holder.thumbnail);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(mContext, "Load hình ảnh thất bại", Toast.LENGTH_SHORT).show();
-            }
-        });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,11 +64,6 @@ public class RecyclerViewAdapterNotification extends RecyclerView.Adapter<Recycl
     @Override
     public int getItemCount() {
         return mData.size();
-    }
-
-    public void restoreItem(Notification item, int position) {
-        mData.add(position, item);
-        notifyItemInserted(position);
     }
 
     public void removeItem(int position) {

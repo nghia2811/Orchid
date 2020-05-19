@@ -55,12 +55,21 @@ public class RecyclerViewAdapterThongbao extends RecyclerView.Adapter<RecyclerVi
                 holder.cardView.setBackgroundResource(R.color.colorWhite);
                 switch (position) {
                     case 0:
-                        newFragment = new NotificationFragment();
-                        transaction = mContext.getFragmentManager().beginTransaction();
+                        if (mContext.lstNotifications != null) {
+                            newFragment = new NotificationFragment();
+                            transaction = mContext.getFragmentManager().beginTransaction();
 
-                        transaction.replace(R.id.thongbao_host_fragment, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                            transaction.replace(R.id.thongbao_host_fragment, newFragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        } else {
+                            newFragment = new Notification1Fragment();
+                            transaction = mContext.getFragmentManager().beginTransaction();
+
+                            transaction.replace(R.id.thongbao_host_fragment, newFragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        }
                         break;
                     case 1:
                     case 2:

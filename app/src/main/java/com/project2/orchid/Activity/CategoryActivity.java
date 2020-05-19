@@ -127,8 +127,6 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void queryProduct() {
-        final RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(CategoryActivity.this, lstCategory);
-        recyclerView.setAdapter(myAdapter);
         reference = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("danhMuc").equalTo(danhMuc);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -136,8 +134,10 @@ public class CategoryActivity extends AppCompatActivity {
                 lstCategory = new ArrayList<Product>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
+                    lstCategory.add(p);
                 }
-                myAdapter.notifyDataSetChanged();
+                final RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(CategoryActivity.this, lstCategory);
+                recyclerView.setAdapter(myAdapter);
             }
 
             @Override
