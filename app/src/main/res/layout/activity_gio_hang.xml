@@ -5,7 +5,7 @@
     android:id="@+id/layout_giohang"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GioHangActivity">
+    tools:context=".Activity.GioHangActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -52,6 +52,15 @@
                 android:layout_marginBottom="60dp" />
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/loading_view_giohang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"

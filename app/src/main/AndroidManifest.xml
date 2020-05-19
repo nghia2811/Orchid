@@ -13,19 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NotificationFragment"></activity>
-        <activity android:name=".DaBanActivity" />
-        <activity android:name=".CategoryActivity" />
-        <activity android:name=".NoiBatActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".YeuThichActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".GioHangActivity" />
-        <activity android:name=".AddProductActivity" />
+        <activity android:name=".NotificationFragment.NotificationFragment"></activity>
+        <activity android:name=".UserFragment.DaBanActivity" />
+        <activity android:name=".Activity.CategoryActivity" />
+        <activity android:name=".Activity.NoiBatActivity" />
+        <activity android:name=".Activity.RegisterActivity" />
+        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.YeuThichActivity" />
+        <activity android:name=".Activity.SearchActivity" />
+        <activity android:name=".Activity.GioHangActivity" />
+        <activity android:name=".UserFragment.AddProductActivity" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".Animation.SplashScreen"
             android:theme="@style/SplashscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProductActivity" />
+        <activity android:name=".Activity.ProductActivity" />
     </application>
 
 </manifest>

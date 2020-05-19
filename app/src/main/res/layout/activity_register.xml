@@ -53,7 +53,8 @@
                 android:drawablePadding="10dp"
                 android:background="@drawable/border3"
                 android:drawableLeft="@drawable/ic_person_black_login_24dp"
-                android:hint="Địa chỉ Email" />
+                android:hint="Địa chỉ Email"
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/register_pass"

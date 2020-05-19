@@ -30,9 +30,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.project2.orchid.object.Category;
-import com.project2.orchid.object.Category2;
-import com.project2.orchid.object.Product;
+import com.project2.orchid.Activity.CategoryActivity;
+import com.project2.orchid.Activity.NoiBatActivity;
+import com.project2.orchid.Activity.SearchActivity;
+import com.project2.orchid.Activity.YeuThichActivity;
+import com.project2.orchid.Animation.ViewPagerAdapter;
+import com.project2.orchid.CategoryFragment.ListFragment;
+import com.project2.orchid.Object.Category;
+import com.project2.orchid.Object.Category2;
+import com.project2.orchid.Object.Product;
+import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapter;
+import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterDanhmuc;
+import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterHomeCategory;
+import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterHomeTimkiem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +52,8 @@ import java.util.TimerTask;
 import static android.view.View.GONE;
 
 public class HomeFragment extends Fragment {
-    ArrayList<Product> lstDaxem, lstNoibat, lstDienthoai, lstQuanao, lstNhacua, lstSach, lstLamdep;
+    ArrayList<Product> lstDaxem;
+    public ArrayList<Product> lstNoibat, lstDienthoai, lstQuanao, lstNhacua, lstSach, lstLamdep;
     List<Category> lstBtnNoibat, lstBtnTimkiem;
     List<Category2> lstDanhmuc;
     Button search, dienThoai, quanAo, nhaCua, sach, lamDep;
@@ -50,12 +61,12 @@ public class HomeFragment extends Fragment {
     ViewPager viewPager;
     ProgressBar loadingView;
     SwipeRefreshLayout swipeRefreshLayout;
-    DatabaseReference reference, refDaxem, refNhacua, refLamdep, refSach;
-    Query refDienthoai, refQuanao;
+    public DatabaseReference reference, refDaxem;
+    public Query refDienthoai, refQuanao, refNhacua, refLamdep, refSach;
     TextView xemthemYeuThich, xemthemNoiBat, xemthemDanhmuc;
     FirebaseAuth mAuth;
 
-    View root;
+    public View root;
     RecyclerView recyclerViewNoibat;
 
     int currentPage = 0;

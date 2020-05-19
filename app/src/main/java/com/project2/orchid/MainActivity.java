@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.project2.orchid.CategoryFragment.ListFragment;
+import com.project2.orchid.NotificationFragment.ThongBaoFragment;
+import com.project2.orchid.UserFragment.UserFragment;
 
 public class MainActivity extends AppCompatActivity {
     private boolean doubleClick = false;

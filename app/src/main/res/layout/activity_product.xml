@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:gravity="center_horizontal"
-    tools:context="com.project2.orchid.ProductActivity">
+    tools:context="com.project2.orchid.Activity.ProductActivity">
 
     <ScrollView
         android:layout_width="match_parent"

@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.project2.orchid.Activity.GioHangActivity;
+import com.project2.orchid.Activity.SearchActivity;
+
 public class TienIchFragment extends Fragment {
     ImageView giohang;
     Button search;
