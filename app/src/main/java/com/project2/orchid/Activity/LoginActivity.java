@@ -15,6 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.project2.orchid.Animation.LoadingDialog;
 import com.project2.orchid.MainActivity;
 import com.project2.orchid.R;
@@ -70,12 +73,36 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
-                                finish();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(LoginActivity.this, "Đăng nhập thành công.",
-                                        Toast.LENGTH_SHORT).show();
-                                loadingDialog.dismissDialog();
+
+                                FirebaseInstanceId.getInstance().getInstanceId()
+                                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                                if (!task.isSuccessful()) {
+                                                    finish();
+                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công.",
+                                                            Toast.LENGTH_SHORT).show();
+                                                    loadingDialog.dismissDialog();
+                                                    return;
+                                                }
+
+                                                // Get new Instance ID token
+                                                String token = task.getResult().getToken();
+                                                FirebaseDatabase.getInstance().getReference("User")
+                                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                        .child("token")
+                                                        .setValue(token);
+
+                                                finish();
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                Toast.makeText(LoginActivity.this, "Đăng nhập thành công.",
+                                                        Toast.LENGTH_SHORT).show();
+                                                loadingDialog.dismissDialog();
+                                            }
+                                        });
                             } else {
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();

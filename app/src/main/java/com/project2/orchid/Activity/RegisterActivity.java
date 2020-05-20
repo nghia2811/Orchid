@@ -122,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         String url = task.getResult().toString();
                                         User user1 = new User(user.getUid(), ten.getText().toString(), String.valueOf(url),
                                                 user.getEmail(), diachi.getText().toString(), date);
-                                        mData.child("UserFragment").child(user.getUid()).setValue(user1);
+                                        mData.child("User").child(user.getUid()).setValue(user1);
                                         loadingDialog.dismissDialog();
                                         Toast.makeText(RegisterActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class NotificationFragment extends Fragment {
     ArrayList<Notification> lstNotifications;
     ProgressBar loadingView;
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    LinearLayout linearLayout;
     boolean j;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,6 +47,7 @@ public class NotificationFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.recyclerView_notification);
         loadingView = root.findViewById(R.id.loading_view2);
+        linearLayout = root.findViewById(R.id.background_notifiaction);
         loadData();
 
         return root;
@@ -62,11 +65,13 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 loadingView.setVisibility(GONE);
+                if (dataSnapshot.exists()) linearLayout.setVisibility(GONE);
                 lstNotifications = new ArrayList<>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Notification p = dataSnapshot1.getValue(Notification.class);
                     lstNotifications.add(p);
                 }
+
                 final RecyclerViewAdapterNotification myAdapter = new RecyclerViewAdapterNotification(getContext(), lstNotifications);
                 recyclerView.setAdapter(myAdapter);
 

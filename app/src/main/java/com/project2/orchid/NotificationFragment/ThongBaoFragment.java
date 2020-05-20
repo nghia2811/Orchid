@@ -49,6 +49,8 @@ public class ThongBaoFragment extends Fragment {
             }
         });
 
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.thongbao_host_fragment, new NotificationFragment()).commit();
+
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -60,11 +62,6 @@ public class ThongBaoFragment extends Fragment {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Notification p = dataSnapshot1.getValue(Notification.class);
                     lstNotifications.add(p);
-                }
-                if (lstNotifications != null) {
-                    getActivity().getSupportFragmentManager().beginTransaction().add(R.id.thongbao_host_fragment, new NotificationFragment()).commit();
-                } else {
-                    getActivity().getSupportFragmentManager().beginTransaction().add(R.id.thongbao_host_fragment, new Notification1Fragment()).commit();
                 }
             }
 

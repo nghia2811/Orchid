@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:gravity="center_horizontal"
     tools:context="com.project2.orchid.Activity.ProductActivity">
 
@@ -359,13 +359,64 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp" />
 
-                <Button
-                    android:id="@+id/vietnhanxet"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:background="@drawable/button_selector2"
-                    android:text="Viết nhận xét"
-                    android:textColor="@color/colorBlue" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:background="?attr/selectableItemBackground">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="5dp"
+                        app:cardCornerRadius="25dp">
+
+                        <ImageView
+                            android:id="@+id/currentuser_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/noimage"
+                            android:scaleType="fitXY" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="245dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/currentuser_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tên khách hàng:"
+                            android:textColor="@color/colorBlue"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edt_currentuser_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="36dp"
+                            android:paddingStart="5dp"
+                            android:hint="Nhận xét của bạn..."
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/border10"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/btn_post"
+                        android:layout_width="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_gravity="bottom"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_send_black_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

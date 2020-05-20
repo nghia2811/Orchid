@@ -22,8 +22,8 @@ import java.util.List;
 
 public class RecyclerViewAdapterThongbao extends RecyclerView.Adapter<RecyclerViewAdapterThongbao.MyViewHolder> {
 
-    private ThongBaoFragment mContext ;
-    private List<Category2> mData ;
+    private ThongBaoFragment mContext;
+    private List<Category2> mData;
     List<LinearLayout> cardViewList = new ArrayList<>();
     Fragment newFragment;
     FragmentTransaction transaction;
@@ -35,9 +35,9 @@ public class RecyclerViewAdapterThongbao extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view ;
+        View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext.getActivity());
-        view = mInflater.inflate(R.layout.button_thongbao,parent,false);
+        view = mInflater.inflate(R.layout.button_thongbao, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -49,27 +49,18 @@ public class RecyclerViewAdapterThongbao extends RecyclerView.Adapter<RecyclerVi
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(LinearLayout cardView : cardViewList){
+                for (LinearLayout cardView : cardViewList) {
                     cardView.setBackgroundResource(R.color.colorGray);
                 }
                 holder.cardView.setBackgroundResource(R.color.colorWhite);
                 switch (position) {
                     case 0:
-                        if (mContext.lstNotifications != null) {
-                            newFragment = new NotificationFragment();
-                            transaction = mContext.getFragmentManager().beginTransaction();
+                        newFragment = new NotificationFragment();
+                        transaction = mContext.getFragmentManager().beginTransaction();
 
-                            transaction.replace(R.id.thongbao_host_fragment, newFragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                        } else {
-                            newFragment = new Notification1Fragment();
-                            transaction = mContext.getFragmentManager().beginTransaction();
-
-                            transaction.replace(R.id.thongbao_host_fragment, newFragment);
-                            transaction.addToBackStack(null);
-                            transaction.commit();
-                        }
+                        transaction.replace(R.id.thongbao_host_fragment, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                         break;
                     case 1:
                     case 2:
@@ -93,7 +84,7 @@ public class RecyclerViewAdapterThongbao extends RecyclerView.Adapter<RecyclerVi
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView img_category_thumbnail;
-        LinearLayout cardView ;
+        LinearLayout cardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);

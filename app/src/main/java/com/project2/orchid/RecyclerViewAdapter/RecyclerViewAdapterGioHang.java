@@ -11,10 +11,10 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project2.orchid.Activity.ProductActivity;
 import com.project2.orchid.Object.Product;
 import com.project2.orchid.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,8 @@ public class RecyclerViewAdapterGioHang extends RecyclerView.Adapter<RecyclerVie
         holder.tensp.setText(mData.get(position).getTen());
         holder.nhasx.setText("Cung cấp bởi " + mData.get(position).getNhaSanXuat());
         holder.giasp.setText(mData.get(position).getGiaTien());
-        Picasso.get().load(mData.get(position).getHinhAnh()).into(holder.anhsp);
+        Glide.with(mContext).load(mData.get(position).getHinhAnh()).placeholder(R.drawable.noimage).into(holder.anhsp);
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +47,7 @@ public class RecyclerViewAdapterGioHang extends RecyclerView.Adapter<RecyclerVie
 
                 // passing data to the book activity
                 intent.putExtra("Ten", mData.get(position).getTen());
-                intent.putExtra("DanhMuc", mData.get(position).getDanhMuc());
+
                 // start the activity
                 mContext.startActivity(intent);
             }

@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class DaBanActivity extends AppCompatActivity {
 
     DatabaseReference delete;
-    Query reference;
+    Query reference, delete1;
     ArrayList<Product> lstDaban = new ArrayList<>();
     ImageView back;
     FirebaseAuth mAuth;
@@ -59,7 +59,6 @@ public class DaBanActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewGioHang.setLayoutManager(layoutManager2);
         final RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(DaBanActivity.this, lstDaban);
-
 
         reference = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("nguoiBan").equalTo(currentUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -103,6 +102,21 @@ public class DaBanActivity extends AppCompatActivity {
 
                                     delete = FirebaseDatabase.getInstance().getReference().child("Product").child(item.getTen());
                                     delete.removeValue();
+
+                                    delete1 = FirebaseDatabase.getInstance().getReference().child("Notifications").child(currentUser.getUid()).orderByChild("product").equalTo(item.getTen());
+                                    delete1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot data : dataSnapshot.getChildren())
+                                                data.getRef().removeValue();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
 
                                     photoRef.delete();
                                 }

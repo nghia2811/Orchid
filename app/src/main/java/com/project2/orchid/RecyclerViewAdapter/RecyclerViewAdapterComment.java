@@ -3,10 +3,12 @@ package com.project2.orchid.RecyclerViewAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project2.orchid.Activity.ProductActivity;
 import com.project2.orchid.Object.Comment;
 import com.project2.orchid.R;
@@ -34,6 +36,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tenkhachhang.setText(mData.get(position).getTenkhachhang());
         holder.comment.setText(mData.get(position).getComment());
+        Glide.with(mContext).load(mData.get(position).getImage()).placeholder(R.drawable.noimage).into(holder.avatar);
     }
 
     @Override
@@ -44,12 +47,14 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tenkhachhang, comment;
+        ImageView avatar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             tenkhachhang = itemView.findViewById(R.id.ten_khach_hang);
             comment = itemView.findViewById(R.id.comment);
+            avatar = itemView.findViewById(R.id.user_comment);
         }
     }
 }

@@ -45,7 +45,9 @@ import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterHomeCategory;
 import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterHomeTimkiem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,12 +61,13 @@ public class HomeFragment extends Fragment {
     Button search, dienThoai, quanAo, nhaCua, sach, lamDep;
     ImageButton danhmuc;
     ViewPager viewPager;
-    ProgressBar loadingView;
+    ProgressBar loadingView, loadingViewNoibat;
     SwipeRefreshLayout swipeRefreshLayout;
     public DatabaseReference reference, refDaxem;
     public Query refDienthoai, refQuanao, refNhacua, refLamdep, refSach;
     TextView xemthemYeuThich, xemthemNoiBat, xemthemDanhmuc;
     FirebaseAuth mAuth;
+    Random rd;
 
     public View root;
     RecyclerView recyclerViewNoibat;
@@ -92,6 +95,7 @@ public class HomeFragment extends Fragment {
         danhmuc = root.findViewById(R.id.home_btn_danhmuc);
         viewPager = root.findViewById(R.id.viewPager);
         loadingView = root.findViewById(R.id.loading_view);
+        loadingViewNoibat = root.findViewById(R.id.loading_noibat);
 
         setViewPager();
 
@@ -271,20 +275,27 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadData() {
-
+        rd = new Random();
         LinearLayoutManager layoutManagerNoibat = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewNoibat = (RecyclerView) root.findViewById(R.id.recyclerView_home_noibat);
         recyclerViewNoibat.setLayoutManager(layoutManagerNoibat);
 
-        reference = FirebaseDatabase.getInstance().getReference().child("NoiBat");
+        reference = FirebaseDatabase.getInstance().getReference().child("Product");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                lstNoibat = new ArrayList<Product>();
+                lstNoibat = new ArrayList<>();
+                loadingViewNoibat.setVisibility(GONE);
+                List<Product> full = new ArrayList<>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
-                    lstNoibat.add(p);
+                    full.add(p);
                 }
+                Collections.shuffle(full);
+
+                for (int i = 0; i < 5; ++i)
+                    lstNoibat.add(full.get(i));
+
                 RecyclerViewAdapter myAdapterNoibat = new RecyclerViewAdapter(getContext(), lstNoibat);
                 recyclerViewNoibat.setAdapter(myAdapterNoibat);
             }

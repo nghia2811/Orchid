@@ -1,15 +1,24 @@
 package com.project2.orchid.Object;
 
 public class Comment {
-    String comment, id, tenkhachhang;
+    String comment, id, tenkhachhang, image;
 
     public Comment() {
     }
 
-    public Comment(String comment, String id, String tenkhachhang) {
+    public Comment(String comment, String id, String tenkhachhang, String image) {
         this.comment = comment;
         this.id = id;
         this.tenkhachhang = tenkhachhang;
+        this.image = image;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getComment() {
