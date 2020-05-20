@@ -21,6 +21,7 @@ import com.project2.orchid.Object.Product;
 import com.project2.orchid.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -64,15 +65,21 @@ public class RecyclerViewAdapterHomeCategory extends RecyclerView.Adapter<Recycl
 
                 switch (mData.get(position).getTitle()) {
                     case "Tất cả":
-                        mContext.reference = FirebaseDatabase.getInstance().getReference().child("NoiBat");
+                        mContext.reference = FirebaseDatabase.getInstance().getReference().child("Product");
                         mContext.reference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 mContext.lstNoibat = new ArrayList<Product>();
+                                List<Product> full = new ArrayList<>();
                                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                                     Product p = dataSnapshot1.getValue(Product.class);
-                                    mContext.lstNoibat.add(p);
+                                    full.add(p);
                                 }
+                                Collections.shuffle(full);
+
+                                for (int i = 0; i < 5; ++i)
+                                    mContext.lstNoibat.add(full.get(i));
+
                                 RecyclerViewAdapter myAdapterNoibat = new RecyclerViewAdapter(mContext.getContext(), mContext.lstNoibat);
                                 recyclerView.setAdapter(myAdapterNoibat);
                             }

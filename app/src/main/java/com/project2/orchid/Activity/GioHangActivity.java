@@ -1,10 +1,13 @@
 package com.project2.orchid.Activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project2.orchid.Animation.SwipeToDeleteCallback;
+import com.project2.orchid.MainActivity;
 import com.project2.orchid.Object.Product;
 import com.project2.orchid.R;
 import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterGioHang;
@@ -43,6 +47,8 @@ public class GioHangActivity extends AppCompatActivity {
     RecyclerView recyclerViewGioHang;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     ProgressBar loadingView;
+    LinearLayout linearLayout;
+    Button tieptuc;
     boolean j;
 
     @Override
@@ -54,6 +60,8 @@ public class GioHangActivity extends AppCompatActivity {
         constraintLayout = findViewById(R.id.layout_giohang);
         recyclerViewGioHang = findViewById(R.id.recyclerView_giohang);
         loadingView = findViewById(R.id.loading_view_giohang);
+        linearLayout = findViewById(R.id.layout_noProduct);
+        tieptuc = findViewById(R.id.giohang_tieptuc);
 
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -73,6 +81,7 @@ public class GioHangActivity extends AppCompatActivity {
                     Product p = dataSnapshot1.getValue(Product.class);
                     lstGioHang.add(p);
                 }
+                if (lstGioHang != null) linearLayout.setVisibility(GONE);
                 myAdapter.notifyDataSetChanged();
 
                 SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(GioHangActivity.this) {
@@ -126,6 +135,15 @@ public class GioHangActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        tieptuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(GioHangActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

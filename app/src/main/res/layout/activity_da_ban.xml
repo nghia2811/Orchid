@@ -46,8 +46,53 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_daban"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp" />
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutdb_noProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:background="@drawable/logobk"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Bạn chưa có sản phẩm nào trong giỏ"
+            android:textColor="@color/colorBlack"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/daban_tieptuc"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_selector"
+            android:text="Tiếp tục mua sắm"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loading_view_daban"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

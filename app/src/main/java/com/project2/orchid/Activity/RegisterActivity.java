@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -29,6 +31,8 @@ import com.project2.orchid.MainActivity;
 import com.project2.orchid.Object.User;
 import com.project2.orchid.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -103,6 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
                             final StorageReference storageRef = storage.getReferenceFromUrl("gs://orchid-29b28.appspot.com");
 
                             final Date date = Calendar.getInstance().getTime();
+                            final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                             final StorageReference mountainsRef = storageRef.child("image" + date.getTime() + ".png");
 
                             UploadTask uploadTask = mountainsRef.putFile(uri);
@@ -111,7 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                                     if (!task.isSuccessful()) {
-
                                     }
                                     return mountainsRef.getDownloadUrl();
                                 }
@@ -121,19 +125,42 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         String url = task.getResult().toString();
                                         User user1 = new User(user.getUid(), ten.getText().toString(), String.valueOf(url),
-                                                user.getEmail(), diachi.getText().toString(), date);
+                                                user.getEmail(), diachi.getText().toString(), dateFormat.format(date));
                                         mData.child("User").child(user.getUid()).setValue(user1);
-                                        loadingDialog.dismissDialog();
-                                        Toast.makeText(RegisterActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        loadingDialog.dismissDialog();
-                                        Toast.makeText(RegisterActivity.this, "Đăng kí thất bại", Toast.LENGTH_SHORT).show();
+                                        FirebaseInstanceId.getInstance().getInstanceId()
+                                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                                        if (!task.isSuccessful()) {
+                                                            finish();
+                                                            loadingDialog.dismissDialog();
+                                                            Toast.makeText(RegisterActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                                                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                            startActivity(intent);
+                                                            return;
+                                                        }
+
+                                                        // Get new Instance ID token
+                                                        String token = task.getResult().getToken();
+                                                        FirebaseDatabase.getInstance().getReference("User")
+                                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                                .child("token")
+                                                                .setValue(token);
+
+                                                        finish();
+                                                        loadingDialog.dismissDialog();
+                                                        Toast.makeText(RegisterActivity.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                });
                                     }
                                 }
                             });
 
+                        } else {
+                            loadingDialog.dismissDialog();
+                            Toast.makeText(RegisterActivity.this, "Đăng kí thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

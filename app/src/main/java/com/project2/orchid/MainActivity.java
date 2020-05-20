@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.project2.orchid.CategoryFragment.ListFragment;
@@ -16,6 +18,8 @@ import com.project2.orchid.UserFragment.UserFragment;
 public class MainActivity extends AppCompatActivity {
     private boolean doubleClick = false;
     BottomNavigationView bottomNav;
+    int newPosition, startingPosition;
+    Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle getSelection = getIntent().getExtras();
         if (getSelection == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, new HomeFragment()).commit();
+            loadFragment(new HomeFragment(), 1);
         } else {
             getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, new ListFragment()).commit();
         }
@@ -33,31 +37,59 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                fragment = null;
+                newPosition = 0;
+
                 switch (menuItem.getItemId()) {
-                    case R.id.nav_trangchu: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new HomeFragment()).commit();
+                    case R.id.nav_trangchu:
+                        fragment = new HomeFragment();
+                        newPosition = 1;
                         break;
-                    }
-                    case R.id.nav_danhmuc: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new ListFragment()).commit();
+
+                    case R.id.nav_danhmuc:
+                        fragment = new ListFragment();
+                        newPosition = 2;
                         break;
-                    }
-                    case R.id.nav_tienich: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new TienIchFragment()).commit();
+
+                    case R.id.nav_tienich:
+                        fragment = new TienIchFragment();
+                        newPosition = 3;
                         break;
-                    }
-                    case R.id.nav_thongbao: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new ThongBaoFragment()).commit();
+
+                    case R.id.nav_thongbao:
+                        fragment = new ThongBaoFragment();
+                        newPosition = 4;
                         break;
-                    }
-                    case R.id.nav_nguoidung: {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new UserFragment()).commit();
+
+                    case R.id.nav_nguoidung:
+                        fragment = new UserFragment();
+                        newPosition = 5;
                         break;
-                    }
+
                 }
-                return true;
+                return loadFragment(fragment, newPosition);
             }
         });
+    }
+
+    private boolean loadFragment(Fragment fragment, int newPosition) {
+        if (fragment != null) {
+            if (startingPosition > newPosition) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+                transaction.replace(R.id.nav_host_fragment, fragment);
+                transaction.commit();
+            }
+            if (startingPosition < newPosition) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                transaction.replace(R.id.nav_host_fragment, fragment);
+                transaction.commit();
+            }
+            startingPosition = newPosition;
+            return true;
+        }
+        return false;
     }
 
     @Override

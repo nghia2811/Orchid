@@ -1,12 +1,10 @@
 package com.project2.orchid.Object;
 
-import java.util.Date;
-
 public class User {
-    private String Ten, AnhDaiDien, DiaChi, UID, Email;
-    Date Date;
+    private String Ten, AnhDaiDien, DiaChi, UID, Email, Date;
 
-    public User(String uid, String ten, String anhDaiDien, String email, String diaChi, java.util.Date date) {
+
+    public User(String uid, String ten, String anhDaiDien, String email, String diaChi, String date) {
         Email = email;
         UID = uid;
         Ten = ten;
@@ -55,11 +53,11 @@ public class User {
         DiaChi = diaChi;
     }
 
-    public java.util.Date getDate() {
+    public String getDate() {
         return Date;
     }
 
-    public void setDate(java.util.Date date) {
+    public void setDate(String date) {
         Date = date;
     }
 }

@@ -3,6 +3,7 @@ package com.project2.orchid.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,11 +21,16 @@ import com.project2.orchid.R;
 import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterGioHang;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static android.view.View.GONE;
 
 public class NoiBatActivity extends AppCompatActivity {
     DatabaseReference reference;
-    ArrayList<Product> lstYeuthich;
+    ArrayList<Product> lstNoibat;
     ImageView back;
+    ProgressBar loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +38,30 @@ public class NoiBatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_noi_bat);
 
         back = findViewById(R.id.noibat_back);
+        loadingView = findViewById(R.id.noibat_loading);
 
-        LinearLayoutManager layoutManagerGioHang = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        final RecyclerView recyclerViewGioHang = (RecyclerView) findViewById(R.id.recyclerView_noibat);
-        recyclerViewGioHang.setLayoutManager(layoutManagerGioHang);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_noibat);
+        recyclerView.setLayoutManager(layoutManager);
 
-        reference = FirebaseDatabase.getInstance().getReference().child("NoiBat");
-
+        reference = FirebaseDatabase.getInstance().getReference().child("Product");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                lstYeuthich = new ArrayList<Product>();
+                lstNoibat = new ArrayList<>();
+                loadingView.setVisibility(GONE);
+                List<Product> full = new ArrayList<>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
-                    lstYeuthich.add(p);
+                    full.add(p);
                 }
-                final RecyclerViewAdapterGioHang myAdapterGioHang = new RecyclerViewAdapterGioHang(NoiBatActivity.this, lstYeuthich);
-                recyclerViewGioHang.setAdapter(myAdapterGioHang);
-                myAdapterGioHang.notifyDataSetChanged();
+                Collections.shuffle(full);
+
+                for (int i = 0; i < 5; ++i)
+                    lstNoibat.add(full.get(i));
+
+                RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(NoiBatActivity.this, lstNoibat);
+                recyclerView.setAdapter(myAdapter);
             }
 
             @Override

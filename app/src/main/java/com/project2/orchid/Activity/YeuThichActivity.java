@@ -1,15 +1,19 @@
 package com.project2.orchid.Activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,19 +29,25 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project2.orchid.Animation.SwipeToDeleteCallback;
+import com.project2.orchid.MainActivity;
 import com.project2.orchid.Object.Product;
 import com.project2.orchid.R;
 import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterGioHang;
 
 import java.util.ArrayList;
 
+import static android.view.View.GONE;
+
 public class YeuThichActivity extends AppCompatActivity {
     DatabaseReference reference, delete;
     ArrayList<Product> lstYeuthich;
     ImageView back;
     FirebaseAuth mAuth;
-    ScrollView layout;
+    ConstraintLayout layout;
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    ProgressBar loadingView;
+    LinearLayout linearLayout;
+    Button tieptuc;
     boolean j;
 
     @Override
@@ -47,6 +57,9 @@ public class YeuThichActivity extends AppCompatActivity {
 
         layout = findViewById(R.id.layout_yeuthich);
         back = findViewById(R.id.yeuthich_back);
+        loadingView = findViewById(R.id.loading_view_yeuthich);
+        linearLayout = findViewById(R.id.layoutyt_noProduct);
+        tieptuc = findViewById(R.id.yeuthich_tieptuc);
 
         LinearLayoutManager layoutManagerGioHang = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         final RecyclerView recyclerViewGioHang = (RecyclerView) findViewById(R.id.recyclerView_yeuthich);
@@ -56,15 +69,16 @@ public class YeuThichActivity extends AppCompatActivity {
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
         reference = FirebaseDatabase.getInstance().getReference().child("Favourite").child(currentUser.getUid());
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lstYeuthich = new ArrayList<Product>();
+                loadingView.setVisibility(GONE);
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
                     lstYeuthich.add(p);
                 }
+                if (lstYeuthich != null) linearLayout.setVisibility(GONE);
                 final RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(YeuThichActivity.this, lstYeuthich);
                 recyclerViewGioHang.setAdapter(myAdapter);
                 myAdapter.notifyDataSetChanged();
@@ -112,6 +126,15 @@ public class YeuThichActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(YeuThichActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        tieptuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(YeuThichActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 

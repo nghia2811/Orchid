@@ -1,10 +1,14 @@
 package com.project2.orchid.UserFragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,11 +30,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project2.orchid.Animation.SwipeToDeleteCallback;
+import com.project2.orchid.MainActivity;
 import com.project2.orchid.Object.Product;
 import com.project2.orchid.R;
 import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterGioHang;
 
 import java.util.ArrayList;
+
+import static android.view.View.GONE;
 
 public class DaBanActivity extends AppCompatActivity {
 
@@ -42,6 +49,9 @@ public class DaBanActivity extends AppCompatActivity {
     ConstraintLayout constraintLayout;
     RecyclerView recyclerViewGioHang;
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    ProgressBar loadingView;
+    LinearLayout linearLayout;
+    Button tieptuc;
     boolean j;
 
     @Override
@@ -52,6 +62,9 @@ public class DaBanActivity extends AppCompatActivity {
         back = findViewById(R.id.daban_back);
         constraintLayout = findViewById(R.id.layout_daban);
         recyclerViewGioHang = findViewById(R.id.recyclerView_daban);
+        loadingView = findViewById(R.id.loading_view_daban);
+        linearLayout = findViewById(R.id.layoutdb_noProduct);
+        tieptuc = findViewById(R.id.daban_tieptuc);
 
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -65,10 +78,12 @@ public class DaBanActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lstDaban.clear();
+                loadingView.setVisibility(GONE);
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
                     lstDaban.add(p);
                 }
+                if (lstDaban != null) linearLayout.setVisibility(GONE);
                 final RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(DaBanActivity.this, lstDaban);
                 recyclerViewGioHang.setAdapter(myAdapter);
 
@@ -132,6 +147,15 @@ public class DaBanActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(DaBanActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        tieptuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(DaBanActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
