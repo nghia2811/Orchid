@@ -38,7 +38,6 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     Button register;
@@ -48,7 +47,6 @@ public class RegisterActivity extends AppCompatActivity {
     int REQUEST_CODE_IMAGE = 1;
     ImageView imageAdd;
     LoadingDialog loadingDialog;
-    private static final String TAG = RegisterActivity.class.getName();
 
     int image = 0;
     Uri uri;
@@ -64,9 +62,6 @@ public class RegisterActivity extends AppCompatActivity {
         register = findViewById(R.id.btn_register);
         diachi = findViewById(R.id.register_diachi);
         imageAdd = findViewById(R.id.cardview_avatar);
-        loadingDialog = new LoadingDialog(RegisterActivity.this);
-
-        mAuth = FirebaseAuth.getInstance();
 
         imageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +87,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void DangKi() {
+        loadingDialog = new LoadingDialog(RegisterActivity.this);
+        mAuth = FirebaseAuth.getInstance();
+
         loadingDialog.startLoadingDialog();
         String email = user.getText().toString();
         String pass = password.getText().toString();

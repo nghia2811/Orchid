@@ -74,8 +74,6 @@ public class AddProductActivity extends AppCompatActivity {
 
         getCurrentUser();
 
-        mData = FirebaseDatabase.getInstance().getReference();
-
         imageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +162,7 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void addProduct() {
-
+        mData = FirebaseDatabase.getInstance().getReference();
         tensp = String.valueOf(edtTensp.getText());
         danhmuc = String.valueOf(btnChon.getText());
 
@@ -257,7 +255,6 @@ public class AddProductActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(AddProductActivity.this, ProductActivity.class);
 
-                    // passing data to the book activity
                     intent.putExtra("Ten", tensp);
                     // start the activity
                     startActivity(intent);

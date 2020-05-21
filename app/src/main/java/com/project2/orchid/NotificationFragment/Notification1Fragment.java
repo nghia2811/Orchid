@@ -24,7 +24,6 @@ public class Notification1Fragment extends Fragment {
         tieptuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }

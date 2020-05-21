@@ -15,6 +15,7 @@ import com.project2.orchid.R;
 
 public class ListDienthoaiFragment extends Fragment {
     Button category;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_list_dienthoai, container, false);

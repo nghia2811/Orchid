@@ -48,8 +48,8 @@ public class GioHangActivity extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     ProgressBar loadingView;
     LinearLayout linearLayout;
-    Button tieptuc;
-    boolean j;
+    Button tieptuc, thanhtoan;
+    boolean check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,27 @@ public class GioHangActivity extends AppCompatActivity {
         loadingView = findViewById(R.id.loading_view_giohang);
         linearLayout = findViewById(R.id.layout_noProduct);
         tieptuc = findViewById(R.id.giohang_tieptuc);
+        thanhtoan = findViewById(R.id.giohang_thanhtoan);
 
+        loadData();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        tieptuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GioHangActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void loadData() {
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -77,11 +97,12 @@ public class GioHangActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lstGioHang.clear();
                 loadingView.setVisibility(GONE);
+                if (dataSnapshot.exists()) linearLayout.setVisibility(GONE);
+
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
                     lstGioHang.add(p);
                 }
-                if (lstGioHang != null) linearLayout.setVisibility(GONE);
                 myAdapter.notifyDataSetChanged();
 
                 SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(GioHangActivity.this) {
@@ -89,7 +110,7 @@ public class GioHangActivity extends AppCompatActivity {
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                         final int position = viewHolder.getAdapterPosition();
                         final Product item = myAdapter.getData().get(position);
-                        j = true;
+                        check = true;
 
                         myAdapter.removeItem(position);
                         Snackbar snackbar = Snackbar
@@ -97,7 +118,7 @@ public class GioHangActivity extends AppCompatActivity {
                         snackbar.setAction("UNDO", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                j = false;
+                                check = false;
                                 myAdapter.restoreItem(item, position);
                                 recyclerViewGioHang.scrollToPosition(position);
                             }
@@ -109,7 +130,7 @@ public class GioHangActivity extends AppCompatActivity {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (j) {
+                                if (check) {
                                     StorageReference photoRef = storage.getReferenceFromUrl(item.getHinhAnh());
                                     delete = FirebaseDatabase.getInstance().getReference().child("Cart").child(currentUser.getUid()).child(item.getTen());
                                     delete.removeValue();
@@ -118,7 +139,6 @@ public class GioHangActivity extends AppCompatActivity {
                                 }
                             }
                         }, 2900);
-
                     }
                 };
                 ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
@@ -128,22 +148,6 @@ public class GioHangActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(GioHangActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        tieptuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(GioHangActivity.this, MainActivity.class);
-                startActivity(intent);
             }
         });
     }

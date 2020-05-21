@@ -8,14 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +34,6 @@ import com.project2.orchid.Activity.NoiBatActivity;
 import com.project2.orchid.Activity.SearchActivity;
 import com.project2.orchid.Activity.YeuThichActivity;
 import com.project2.orchid.Animation.ViewPagerAdapter;
-import com.project2.orchid.CategoryFragment.ListFragment;
 import com.project2.orchid.Object.Category;
 import com.project2.orchid.Object.Category2;
 import com.project2.orchid.Object.Product;
@@ -53,11 +51,12 @@ import java.util.TimerTask;
 
 import static android.view.View.GONE;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     ArrayList<Product> lstDaxem;
     public ArrayList<Product> lstNoibat, lstDienthoai, lstQuanao, lstNhacua, lstSach, lstLamdep;
     List<Category> lstBtnNoibat, lstBtnTimkiem;
     List<Category2> lstDanhmuc;
+    LinearLayout layoutDoraemon;
     Button search, dienThoai, quanAo, nhaCua, sach, lamDep;
     ImageButton danhmuc;
     ViewPager viewPager;
@@ -68,6 +67,7 @@ public class HomeFragment extends Fragment {
     TextView xemthemYeuThich, xemthemNoiBat, xemthemDanhmuc;
     FirebaseAuth mAuth;
     Random rd;
+    Intent intent;
 
     public View root;
     RecyclerView recyclerViewNoibat;
@@ -96,99 +96,20 @@ public class HomeFragment extends Fragment {
         viewPager = root.findViewById(R.id.viewPager);
         loadingView = root.findViewById(R.id.loading_view);
         loadingViewNoibat = root.findViewById(R.id.loading_noibat);
+        layoutDoraemon = root.findViewById(R.id.layout_doraemon);
 
         setViewPager();
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        dienThoai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                intent.putExtra("DanhMuc", "Điện thoại - Máy tính");
-                startActivity(intent);
-            }
-        });
-
-        nhaCua.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                intent.putExtra("DanhMuc", "Nhà cửa - Đồ gia dụng");
-                startActivity(intent);
-            }
-        });
-
-        lamDep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                intent.putExtra("DanhMuc", "Sức khỏe - Làm đẹp");
-                startActivity(intent);
-            }
-        });
-
-        quanAo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                intent.putExtra("DanhMuc", "Quần áo - Thời trang");
-                startActivity(intent);
-            }
-        });
-
-        sach.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                intent.putExtra("DanhMuc", "Sách - Văn phòng phẩm");
-                startActivity(intent);
-            }
-        });
-
-        xemthemYeuThich.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), YeuThichActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        xemthemNoiBat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NoiBatActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        xemthemDanhmuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListFragment fragment = new ListFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
-                fragmentTransaction.commit();
-            }
-        });
-
-        danhmuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ListFragment fragment = new ListFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
-                fragmentTransaction.commit();
-            }
-        });
+        search.setOnClickListener(this);
+        dienThoai.setOnClickListener(this);
+        nhaCua.setOnClickListener(this);
+        lamDep.setOnClickListener(this);
+        quanAo.setOnClickListener(this);
+        sach.setOnClickListener(this);
+        xemthemYeuThich.setOnClickListener(this);
+        xemthemNoiBat.setOnClickListener(this);
+        xemthemDanhmuc.setOnClickListener(this);
+        danhmuc.setOnClickListener(this);
 
         setDanhmuc();
         setLstBtnNoibat();
@@ -431,13 +352,13 @@ public class HomeFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-
         refDaxem = FirebaseDatabase.getInstance().getReference().child("Favourite").child(currentUser.getUid());
         refDaxem.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 loadingView.setVisibility(GONE);
                 lstDaxem = new ArrayList<Product>();
+                if (dataSnapshot.exists()) layoutDoraemon.setVisibility(GONE);
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
                     lstDaxem.add(p);
@@ -463,4 +384,56 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.home_search:
+                intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_dienthoai:
+                intent = new Intent(getActivity(), CategoryActivity.class);
+                intent.putExtra("DanhMuc", "Điện thoại - Máy tính");
+                startActivity(intent);
+                break;
+            case R.id.btn_nhacua:
+                intent = new Intent(getActivity(), CategoryActivity.class);
+                intent.putExtra("DanhMuc", "Nhà cửa - Đồ gia dụng");
+                startActivity(intent);
+                break;
+            case R.id.btn_lamdep:
+                intent = new Intent(getActivity(), CategoryActivity.class);
+                intent.putExtra("DanhMuc", "Sức khỏe - Làm đẹp");
+                startActivity(intent);
+                break;
+            case R.id.btn_thoitrang:
+                intent = new Intent(getActivity(), CategoryActivity.class);
+                intent.putExtra("DanhMuc", "Quần áo - Thời trang");
+                startActivity(intent);
+                break;
+            case R.id.btn_sach:
+                intent = new Intent(getActivity(), CategoryActivity.class);
+                intent.putExtra("DanhMuc", "Sách - Văn phòng phẩm");
+                startActivity(intent);
+                break;
+            case R.id.home_daxem_xemthem:
+                intent = new Intent(getActivity(), YeuThichActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.home_noibat_xemthem:
+                intent = new Intent(getActivity(), NoiBatActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.home_danhmuc_xemthem:
+                intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("Selection", "List");
+                startActivity(intent);
+                break;
+            case R.id.home_btn_danhmuc:
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("Selection", "List");
+                startActivity(intent);
+                break;
+        }
+    }
 }

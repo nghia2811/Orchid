@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NotificationFragment.NotificationFragment"></activity>
+        <activity android:name=".UserFragment.UserActivity" />
+        <activity android:name=".NotificationFragment.NotificationFragment" />
         <activity android:name=".UserFragment.DaBanActivity" />
         <activity android:name=".Activity.CategoryActivity" />
         <activity android:name=".Activity.NoiBatActivity" />

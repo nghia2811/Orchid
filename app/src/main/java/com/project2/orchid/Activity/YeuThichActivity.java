@@ -48,6 +48,7 @@ public class YeuThichActivity extends AppCompatActivity {
     ProgressBar loadingView;
     LinearLayout linearLayout;
     Button tieptuc;
+    RecyclerView recyclerView;
     boolean j;
 
     @Override
@@ -60,10 +61,29 @@ public class YeuThichActivity extends AppCompatActivity {
         loadingView = findViewById(R.id.loading_view_yeuthich);
         linearLayout = findViewById(R.id.layoutyt_noProduct);
         tieptuc = findViewById(R.id.yeuthich_tieptuc);
+        recyclerView = findViewById(R.id.recyclerView_yeuthich);
 
+        loadData();
+
+        tieptuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(YeuThichActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    private void loadData() {
         LinearLayoutManager layoutManagerGioHang = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        final RecyclerView recyclerViewGioHang = (RecyclerView) findViewById(R.id.recyclerView_yeuthich);
-        recyclerViewGioHang.setLayoutManager(layoutManagerGioHang);
+        recyclerView.setLayoutManager(layoutManagerGioHang);
 
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -74,13 +94,13 @@ public class YeuThichActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lstYeuthich = new ArrayList<Product>();
                 loadingView.setVisibility(GONE);
+                if (dataSnapshot.exists()) linearLayout.setVisibility(GONE);
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
                     lstYeuthich.add(p);
                 }
-                if (lstYeuthich != null) linearLayout.setVisibility(GONE);
                 final RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(YeuThichActivity.this, lstYeuthich);
-                recyclerViewGioHang.setAdapter(myAdapter);
+                recyclerView.setAdapter(myAdapter);
                 myAdapter.notifyDataSetChanged();
 
                 SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(YeuThichActivity.this) {
@@ -98,7 +118,7 @@ public class YeuThichActivity extends AppCompatActivity {
                             public void onClick(View view) {
                                 j = false;
                                 myAdapter.restoreItem(item, position);
-                                recyclerViewGioHang.scrollToPosition(position);
+                                recyclerView.scrollToPosition(position);
                             }
                         });
                         snackbar.setActionTextColor(Color.YELLOW);
@@ -120,7 +140,7 @@ public class YeuThichActivity extends AppCompatActivity {
                     }
                 };
                 ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
-                itemTouchhelper.attachToRecyclerView(recyclerViewGioHang);
+                itemTouchhelper.attachToRecyclerView(recyclerView);
             }
 
             @Override
@@ -128,22 +148,5 @@ public class YeuThichActivity extends AppCompatActivity {
                 Toast.makeText(YeuThichActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
             }
         });
-
-        tieptuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(YeuThichActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
-
 }

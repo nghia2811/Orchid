@@ -26,13 +26,14 @@ import com.project2.orchid.Activity.LoginActivity;
 import com.project2.orchid.Activity.YeuThichActivity;
 import com.project2.orchid.R;
 
-public class UserFragment extends Fragment {
+public class UserFragment extends Fragment implements View.OnClickListener {
     ImageView gioHang;
-    Button btnQuanli,btnYeuthich,btnDangxuat,btnMuasau;
+    Button btnQuanli, btnYeuthich, btnDangxuat, btnMuasau, btnTaikhoan;
     TextView email, ten, ngaydangki;
     ImageView img;
     FirebaseAuth mAuth;
     DatabaseReference ref;
+    Intent intent;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class UserFragment extends Fragment {
         btnMuasau = root.findViewById(R.id.user_muasau);
         btnYeuthich = root.findViewById(R.id.user_yeuthich);
         btnQuanli = (Button) root.findViewById(R.id.user_quanli);
+        btnTaikhoan = root.findViewById(R.id.user_diachi);
         gioHang = root.findViewById(R.id.btn_user_giohang);
         email = root.findViewById(R.id.user_email);
         btnDangxuat = root.findViewById(R.id.user_dangxuat);
@@ -50,46 +52,13 @@ public class UserFragment extends Fragment {
 
         loadData();
 
-        gioHang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), GioHangActivity.class);
-                startActivity(intent);
-            }
-        });
+        gioHang.setOnClickListener(this);
+        btnQuanli.setOnClickListener(this);
+        btnYeuthich.setOnClickListener(this);
+        btnMuasau.setOnClickListener(this);
+        btnDangxuat.setOnClickListener(this);
+        btnTaikhoan.setOnClickListener(this);
 
-        btnQuanli.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddProductActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnYeuthich.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), YeuThichActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnMuasau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DaBanActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnDangxuat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                getActivity().finish();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-            }
-        });
         return root;
     }
 
@@ -115,5 +84,36 @@ public class UserFragment extends Fragment {
                 Toast.makeText(getActivity(), "load thất bại", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_user_giohang:
+                intent = new Intent(getActivity(), GioHangActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.user_quanli:
+                intent = new Intent(getActivity(), AddProductActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.user_yeuthich:
+                intent = new Intent(getActivity(), YeuThichActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.user_muasau:
+                intent = new Intent(getActivity(), DaBanActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.user_dangxuat:
+                FirebaseAuth.getInstance().signOut();
+                getActivity().finish();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                break;
+            case R.id.user_diachi:
+                Intent intent = new Intent(getActivity(), UserActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

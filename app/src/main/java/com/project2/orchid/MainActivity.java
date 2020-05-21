@@ -26,13 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Bundle getSelection = getIntent().getExtras();
-        if (getSelection == null) {
-            loadFragment(new HomeFragment(), 1);
-        } else {
-            getSupportFragmentManager().beginTransaction().add(R.id.nav_host_fragment, new ListFragment()).commit();
-        }
-
         bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -70,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
                 return loadFragment(fragment, newPosition);
             }
         });
+
+        Bundle getSelection = getIntent().getExtras();
+        if (getSelection == null) {
+            loadFragment(new HomeFragment(), 1);
+        } else {
+            loadFragment(new ListFragment(), 2);
+            bottomNav.setSelectedItemId(R.id.nav_danhmuc);
+        }
     }
 
     private boolean loadFragment(Fragment fragment, int newPosition) {

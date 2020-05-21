@@ -66,12 +66,30 @@ public class DaBanActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.layoutdb_noProduct);
         tieptuc = findViewById(R.id.daban_tieptuc);
 
+        loadData();
+
+        tieptuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DaBanActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    private void loadData() {
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewGioHang.setLayoutManager(layoutManager2);
-        final RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(DaBanActivity.this, lstDaban);
 
         reference = FirebaseDatabase.getInstance().getReference().child("Product").orderByChild("nguoiBan").equalTo(currentUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -79,11 +97,11 @@ public class DaBanActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lstDaban.clear();
                 loadingView.setVisibility(GONE);
+                if (dataSnapshot.exists()) linearLayout.setVisibility(GONE);
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Product p = dataSnapshot1.getValue(Product.class);
                     lstDaban.add(p);
                 }
-                if (lstDaban != null) linearLayout.setVisibility(GONE);
                 final RecyclerViewAdapterGioHang myAdapter = new RecyclerViewAdapterGioHang(DaBanActivity.this, lstDaban);
                 recyclerViewGioHang.setAdapter(myAdapter);
 
@@ -147,22 +165,6 @@ public class DaBanActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(DaBanActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        tieptuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(DaBanActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }

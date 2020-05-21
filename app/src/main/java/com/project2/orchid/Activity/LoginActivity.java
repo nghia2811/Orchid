@@ -40,10 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.btn_login);
         forgot = findViewById(R.id.forgot_password);
 
-        loadingDialog = new LoadingDialog(LoginActivity.this);
-
-        mAuth = FirebaseAuth.getInstance();
-
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
         if (user.getText().toString().equals("") || password.getText().toString().equals("")) {
             Toast.makeText(LoginActivity.this, "Thêm đầy đủ thông tin tài khoản và mật khẩu", Toast.LENGTH_SHORT).show();
         } else {
+            loadingDialog = new LoadingDialog(LoginActivity.this);
+            mAuth = FirebaseAuth.getInstance();
             loadingDialog.startLoadingDialog();
             String email = user.getText().toString();
             String pass = password.getText().toString();

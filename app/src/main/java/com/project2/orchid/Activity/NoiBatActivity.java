@@ -31,6 +31,7 @@ public class NoiBatActivity extends AppCompatActivity {
     ArrayList<Product> lstNoibat;
     ImageView back;
     ProgressBar loadingView;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,20 @@ public class NoiBatActivity extends AppCompatActivity {
 
         back = findViewById(R.id.noibat_back);
         loadingView = findViewById(R.id.noibat_loading);
+        recyclerView = findViewById(R.id.recyclerView_noibat);
 
+        loadData();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    private void loadData() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView_noibat);
         recyclerView.setLayoutManager(layoutManager);
 
         reference = FirebaseDatabase.getInstance().getReference().child("Product");
@@ -67,13 +79,6 @@ public class NoiBatActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(NoiBatActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
     }

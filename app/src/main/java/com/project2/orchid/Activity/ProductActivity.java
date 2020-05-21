@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ProductActivity extends AppCompatActivity {
+public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tensp, gia, danhmuc, nhasx, thuonghieu, xuatxu, mota, baohanh, currentUserName;
     private ImageView img;
     ImageView back, like, gioHang, vietnhanxet, currentUserImage;
@@ -70,13 +70,13 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        tensp = (TextView) findViewById(R.id.txt_tensp);
-        gia = (TextView) findViewById(R.id.txt_giasp);
-        danhmuc = (TextView) findViewById(R.id.txt_danhmuc);
-        nhasx = (TextView) findViewById(R.id.txt_nhasx);
-        thuonghieu = (TextView) findViewById(R.id.txt_thuonghieu);
-        xuatxu = (TextView) findViewById(R.id.txt_xuatxu);
-        mota = (TextView) findViewById(R.id.txt_mota);
+        tensp = findViewById(R.id.txt_tensp);
+        gia = findViewById(R.id.txt_giasp);
+        danhmuc = findViewById(R.id.txt_danhmuc);
+        nhasx = findViewById(R.id.txt_nhasx);
+        thuonghieu = findViewById(R.id.txt_thuonghieu);
+        xuatxu = findViewById(R.id.txt_xuatxu);
+        mota = findViewById(R.id.txt_mota);
         baohanh = findViewById(R.id.text_xemthembaohanh);
         recyclerView = findViewById(R.id.recyclerView_comment);
         edtComment = findViewById(R.id.edt_currentuser_comment);
@@ -89,61 +89,20 @@ public class ProductActivity extends AppCompatActivity {
         currentUserName = findViewById(R.id.currentuser_name);
         currentUserImage = findViewById(R.id.currentuser_comment);
 
-
         // Recieve data
         Intent intent = getIntent();
         name = intent.getExtras().getString("Ten");
+
         loadData();
         loadComment();
         getCurrentUser();
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        baohanh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createBottomDialog();
-                bottomDialod1.show();
-            }
-        });
-
-        like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nguoiBan.equals(id))
-                    Toast.makeText(ProductActivity.this, "Đây là sản phẩm bạn đăng bán", Toast.LENGTH_SHORT).show();
-                else addLike();
-            }
-        });
-
-        gioHang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProductActivity.this, GioHangActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        chonmua.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nguoiBan.equals(id))
-                    Toast.makeText(ProductActivity.this, "Đây là sản phẩm bạn đăng bán", Toast.LENGTH_SHORT).show();
-                else addToCart();
-            }
-        });
-
-        vietnhanxet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createComment();
-            }
-        });
+        back.setOnClickListener(this);
+        baohanh.setOnClickListener(this);
+        like.setOnClickListener(this);
+        gioHang.setOnClickListener(this);
+        chonmua.setOnClickListener(this);
+        vietnhanxet.setOnClickListener(this);
     }
 
     private void createBottomDialog() {
@@ -194,7 +153,6 @@ public class ProductActivity extends AppCompatActivity {
             Toast.makeText(ProductActivity.this, "Đã gửi nhận xét", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void loadData() {
         ref = FirebaseDatabase.getInstance().getReference().child("Product").child(name);
@@ -382,5 +340,35 @@ public class ProductActivity extends AppCompatActivity {
                 Toast.makeText(ProductActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_product_back:
+                finish();
+                break;
+            case R.id.text_xemthembaohanh:
+                createBottomDialog();
+                bottomDialod1.show();
+                break;
+            case R.id.btn_product_like:
+                if (nguoiBan.equals(id))
+                    Toast.makeText(ProductActivity.this, "Đây là sản phẩm bạn đăng bán", Toast.LENGTH_SHORT).show();
+                else addLike();
+                break;
+            case R.id.btn_giohang:
+                Intent intent = new Intent(ProductActivity.this, GioHangActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_chonmua:
+                if (nguoiBan.equals(id))
+                    Toast.makeText(ProductActivity.this, "Đây là sản phẩm bạn đăng bán", Toast.LENGTH_SHORT).show();
+                else addToCart();
+                break;
+            case R.id.btn_post:
+                createComment();
+                break;
+        }
     }
 }

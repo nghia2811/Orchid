@@ -1,9 +1,11 @@
 package com.project2.orchid.NotificationFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -21,8 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.project2.orchid.Animation.SwipeToDeleteCallback;
+import com.project2.orchid.MainActivity;
 import com.project2.orchid.Object.Notification;
 import com.project2.orchid.R;
 import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapterNotification;
@@ -37,9 +39,8 @@ public class NotificationFragment extends Fragment {
     FirebaseAuth mAuth;
     ArrayList<Notification> lstNotifications;
     ProgressBar loadingView;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
     LinearLayout linearLayout;
-    boolean j;
+    Button tieptuc;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +49,16 @@ public class NotificationFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerView_notification);
         loadingView = root.findViewById(R.id.loading_view2);
         linearLayout = root.findViewById(R.id.background_notifiaction);
+        tieptuc = root.findViewById(R.id.notification_tieptuc);
         loadData();
+
+        tieptuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return root;
     }

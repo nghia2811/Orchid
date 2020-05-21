@@ -25,7 +25,7 @@ import com.project2.orchid.RecyclerViewAdapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView back, giohang, home, background;
     Button search;
@@ -34,6 +34,7 @@ public class CategoryActivity extends AppCompatActivity {
     ArrayList<Product> lstCategory;
     String danhMuc;
     RecyclerView recyclerView;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,44 +56,11 @@ public class CategoryActivity extends AppCompatActivity {
         search.setText(danhMuc);
         danhmuc.setText(danhMuc);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CategoryActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CategoryActivity.this, MainActivity.class);
-                intent.putExtra("Selection", "List");
-                startActivity(intent);
-            }
-        });
-
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CategoryActivity.this, SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-        giohang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CategoryActivity.this, GioHangActivity.class);
-                startActivity(intent);
-            }
-        });
+        back.setOnClickListener(this);
+        home.setOnClickListener(this);
+        category.setOnClickListener(this);
+        search.setOnClickListener(this);
+        giohang.setOnClickListener(this);
 
         loadData();
     }
@@ -145,5 +113,28 @@ public class CategoryActivity extends AppCompatActivity {
                 Toast.makeText(CategoryActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.category_back:
+                finish();
+                break;
+            case R.id.btn_category_giohang:
+                intent = new Intent(CategoryActivity.this, GioHangActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.category_search:
+                intent = new Intent(CategoryActivity.this, SearchActivity.class);
+                startActivity(intent);
+            case R.id.btn_category_home:
+                intent = new Intent(CategoryActivity.this, MainActivity.class);
+                startActivity(intent);
+            case R.id.category_text:
+                intent = new Intent(CategoryActivity.this, MainActivity.class);
+                intent.putExtra("Selection", "List");
+                startActivity(intent);
+        }
     }
 }
