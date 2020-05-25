@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="7dp"
     android:background="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:layout_marginTop="7dp"
     android:padding="5dp">
 
     <androidx.cardview.widget.CardView
@@ -19,33 +19,33 @@
             android:id="@+id/user_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:background="@drawable/noimage" />
+            android:background="@drawable/noimage"
+            android:scaleType="fitXY" />
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="10dp">
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/ten_khach_hang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tên khách hàng:"
-            android:textSize="16sp"
             android:textColor="@color/colorBlue"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="comment"
-            android:textSize="15sp"
             android:textColor="@color/colorBlack"
-            android:layout_marginTop="5dp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 </LinearLayout>

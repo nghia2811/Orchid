@@ -329,6 +329,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/xemthem_mota"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@drawable/button_selector2"

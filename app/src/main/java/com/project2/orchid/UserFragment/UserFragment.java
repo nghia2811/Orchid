@@ -28,7 +28,7 @@ import com.project2.orchid.R;
 
 public class UserFragment extends Fragment implements View.OnClickListener {
     ImageView gioHang;
-    Button btnQuanli, btnYeuthich, btnDangxuat, btnMuasau, btnTaikhoan;
+    Button btnQuanli, btnYeuthich, btnDangxuat, btnMuasau, btnTaikhoan, aboutus, setting;
     TextView email, ten, ngaydangki;
     ImageView img;
     FirebaseAuth mAuth;
@@ -41,7 +41,7 @@ public class UserFragment extends Fragment implements View.OnClickListener {
 
         btnMuasau = root.findViewById(R.id.user_muasau);
         btnYeuthich = root.findViewById(R.id.user_yeuthich);
-        btnQuanli = (Button) root.findViewById(R.id.user_quanli);
+        btnQuanli = root.findViewById(R.id.user_quanli);
         btnTaikhoan = root.findViewById(R.id.user_diachi);
         gioHang = root.findViewById(R.id.btn_user_giohang);
         email = root.findViewById(R.id.user_email);
@@ -49,6 +49,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         ten = root.findViewById(R.id.user_name);
         ngaydangki = root.findViewById(R.id.user_date);
         img = root.findViewById(R.id.user_img1);
+        aboutus = root.findViewById(R.id.user_hotro);
+        setting = root.findViewById(R.id.user_caidat);
 
         loadData();
 
@@ -58,6 +60,8 @@ public class UserFragment extends Fragment implements View.OnClickListener {
         btnMuasau.setOnClickListener(this);
         btnDangxuat.setOnClickListener(this);
         btnTaikhoan.setOnClickListener(this);
+        aboutus.setOnClickListener(this);
+        setting.setOnClickListener(this);
 
         return root;
     }
@@ -111,7 +115,15 @@ public class UserFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 break;
             case R.id.user_diachi:
-                Intent intent = new Intent(getActivity(), UserActivity.class);
+                intent = new Intent(getActivity(), UserActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.user_hotro:
+                intent = new Intent(getActivity(), InfoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.user_caidat:
+                intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
                 break;
         }

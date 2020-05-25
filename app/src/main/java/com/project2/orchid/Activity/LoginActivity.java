@@ -2,6 +2,7 @@ package com.project2.orchid.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,11 +24,12 @@ import com.project2.orchid.MainActivity;
 import com.project2.orchid.R;
 
 public class LoginActivity extends AppCompatActivity {
-    TextView forgot,register;
+    TextView forgot, register;
     Button login;
     EditText user, password;
     FirebaseAuth mAuth;
     LoadingDialog loadingDialog;
+    private boolean doubleClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,16 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        if (doubleClick)
+            finish();
+        Toast.makeText(this, "Click 2 lần liên tiếp để thoát ứng dụng", Toast.LENGTH_SHORT).show();
+        doubleClick = true;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleClick = false;
+            }
+        }, 1500);
     }
 }
+

@@ -180,5 +180,4 @@ public class RegisterActivity extends AppCompatActivity {
         Matcher mat = pattern.matcher(email);
         return mat.matches();
     }
-
 }

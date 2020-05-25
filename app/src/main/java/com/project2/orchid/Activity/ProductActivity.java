@@ -56,7 +56,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView img;
     ImageView back, like, gioHang, vietnhanxet, currentUserImage;
     EditText edtComment;
-    Button chonmua;
+    Button chonmua, xemthemmota;
     DatabaseReference ref, mData;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     FirebaseAuth mAuth;
@@ -88,6 +88,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         vietnhanxet = findViewById(R.id.btn_post);
         currentUserName = findViewById(R.id.currentuser_name);
         currentUserImage = findViewById(R.id.currentuser_comment);
+        xemthemmota = findViewById(R.id.xemthem_mota);
 
         // Recieve data
         Intent intent = getIntent();
@@ -103,6 +104,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         gioHang.setOnClickListener(this);
         chonmua.setOnClickListener(this);
         vietnhanxet.setOnClickListener(this);
+        xemthemmota.setOnClickListener(this);
     }
 
     private void createBottomDialog() {
@@ -209,6 +211,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void loadComment() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
 
         ref = FirebaseDatabase.getInstance().getReference().child("Product").child(name).child("Comment");
         ref.addValueEventListener(new ValueEventListener() {
@@ -368,6 +371,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.btn_post:
                 createComment();
+                break;
+            case R.id.xemthem_mota:
+                Intent intent1 = new Intent(ProductActivity.this, ProductdetailActivity.class);
+                intent1.putExtra("mota", mota.getText());
+                startActivity(intent1);
                 break;
         }
     }

@@ -57,9 +57,21 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
         danhmuc.setText(danhMuc);
 
         back.setOnClickListener(this);
-        home.setOnClickListener(this);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         category.setOnClickListener(this);
-        search.setOnClickListener(this);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
         giohang.setOnClickListener(this);
 
         loadData();
@@ -125,12 +137,6 @@ public class CategoryActivity extends AppCompatActivity implements View.OnClickL
                 intent = new Intent(CategoryActivity.this, GioHangActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.category_search:
-                intent = new Intent(CategoryActivity.this, SearchActivity.class);
-                startActivity(intent);
-            case R.id.btn_category_home:
-                intent = new Intent(CategoryActivity.this, MainActivity.class);
-                startActivity(intent);
             case R.id.category_text:
                 intent = new Intent(CategoryActivity.this, MainActivity.class);
                 intent.putExtra("Selection", "List");
