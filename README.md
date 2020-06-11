@@ -1,5 +1,6 @@
 # Orchid
-App bán hàng online
+App bán hàng online 
+Nguyễn Trung Nghĩa - 20173285 - Hanoi University of Science and Technology
 
 ![101974225_946549122449688_6183361126049244074_n](https://user-images.githubusercontent.com/57521886/84344134-2deacb00-abd4-11ea-95e1-53f3c37e9b09.jpg)
 ![102410306_623615298239272_378761551391312347_n](https://user-images.githubusercontent.com/57521886/84344135-2e836180-abd4-11ea-906d-4dea562e0885.jpg)
